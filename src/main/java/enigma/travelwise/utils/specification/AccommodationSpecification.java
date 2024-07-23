@@ -1,6 +1,6 @@
 package enigma.travelwise.utils.specification;
 
-import enigma.travelwise.model.Accomodation;
+import enigma.travelwise.model.Accommodation;
 import jakarta.persistence.criteria.Predicate;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AccommodationSpecification {
-    public static Specification<Accomodation> getSpecification(String name, String location, String category) {
+    public static Specification<Accommodation> getSpecification(String name, String location, String category) {
         return (root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
