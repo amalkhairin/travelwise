@@ -16,14 +16,14 @@ public class OrderDetailDestination {
     private Long id;
 
     //order_destination_id manytoone orderdestination
-//    @ManyToOne
-//    @JoinColumn(name="order_destination")
-//
+    @ManyToOne
+    @JoinColumn(name="orderDestinationId")
+    private OrderDestination orderDestinationId;
 
     //destination_id manytoone destination
     @ManyToOne
-    @JoinColumn(name="destination_id")
-    private Destination destination;
+    @JoinColumn(name="destinationId")
+    private Destination destinationId;
 
 
     @Column (name = "price")

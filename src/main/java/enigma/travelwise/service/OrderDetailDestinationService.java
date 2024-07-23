@@ -7,8 +7,9 @@ import java.util.List;
 
 public interface OrderDetailDestinationService {
     OrderDetailDestination create ();
-    OrderDetailDestination updateById ();
     OrderDetailDestination getById ();
     List<OrderDetailDestination> getall ();
-    void deleteByid();
+
+//    OrderDetailDestination updateById ();
+//    void deleteByid();
 }

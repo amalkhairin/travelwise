@@ -19,6 +19,9 @@ public class OrderDestination {
     private Long id;
 
     //user id ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity userId;
 
     @Column (name = "totalPrice")
     private Integer totalPrice;
