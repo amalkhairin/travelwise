@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "order_accommodation")//nama table di databse
+@Table(name = "order_accommodation")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -25,7 +25,9 @@ public class OrderAccommodation {
 
     private LocalDate checkOut;
 
-    // field user
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     @OneToMany(mappedBy = "order")
     private List<OrderAccommodationDetail> accommodationDetails = new ArrayList<>();

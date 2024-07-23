@@ -27,5 +27,7 @@ public class OrderAccommodationDetail {
     @JsonIgnore
     private OrderAccommodation orderAccommodation;
 
-    // field accommodation/nama nama hotel
+    @ManyToOne
+    @JoinColumn(name = "accommodation_id")
+    private Accommodation accommodation;
 }
