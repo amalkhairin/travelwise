@@ -8,6 +8,8 @@ import lombok.*;
 @Setter
 @Builder
 public class OrderDetailDestinationDTO {
+    private Long orderDestinationId;
+    private Long destinationId;
     private Integer price;
     private Integer quantity;
     private String categoryTicket;

@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Setter
 @Builder
 public class OrderDestinationDTO {
+    private Long userId;
     private Integer totalPrice;
     private LocalDate orderDate;
     private String Status;
