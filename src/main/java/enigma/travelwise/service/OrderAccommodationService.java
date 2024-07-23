@@ -1,4 +1,4 @@
-package enigma.travelwise.security;
+package enigma.travelwise.service;
 
 import enigma.travelwise.model.OrderAccommodation;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
