@@ -1,24 +1,17 @@
-package enigma.travelwise.model;
+package enigma.travelwise.utils.dto;
+
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-@Entity
-@Data
 @Getter
 @Setter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")
-public class UserEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+@AllArgsConstructor
+public class UserDTO {
     @NotBlank
     private String name;
 
