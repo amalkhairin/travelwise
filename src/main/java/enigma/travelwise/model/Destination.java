@@ -26,8 +26,7 @@ public class Destination {
     private String description;
     private String locations;
 
-    @Column(columnDefinition = "jsonb")
-    private Map<String, Integer> categories;
+    private String categories;
 
     @Column(columnDefinition = "jsonb")
     private Map<String, String> pictures;
