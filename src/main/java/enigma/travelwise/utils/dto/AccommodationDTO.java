@@ -4,7 +4,9 @@ import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
@@ -25,8 +27,7 @@ public class AccommodationDTO {
     @NotBlank
     private String category;
 
-    @Column(columnDefinition = "jsonb")
-    private Map<String, String> pictures;
+    private List<MultipartFile> pictures;
 
     @Column(columnDefinition = "jsonb")
     private Map<String, Integer> category_prices;
