@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -25,7 +26,7 @@ public class UserDTO {
     @NotBlank
     private String phone_number;
 
-    private String profile_picture;
+    private MultipartFile profile_picture;
 
     @NotNull
     private Double latitude;
