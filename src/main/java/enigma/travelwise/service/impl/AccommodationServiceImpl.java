@@ -1,5 +1,7 @@
 package enigma.travelwise.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import enigma.travelwise.model.Accommodation;
 import enigma.travelwise.repository.AccommodationRepository;
 import enigma.travelwise.service.AccommodationService;
@@ -7,6 +9,8 @@ import enigma.travelwise.service.CloudinaryService;
 import enigma.travelwise.utils.dto.AccommodationChangePictureDTO;
 import enigma.travelwise.utils.dto.AccommodationDTO;
 import enigma.travelwise.utils.specification.AccommodationSpecification;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
@@ -16,6 +20,8 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class AccommodationServiceImpl implements AccommodationService {
     @Autowired
     private CloudinaryService cloudinaryService;
@@ -32,12 +38,12 @@ public class AccommodationServiceImpl implements AccommodationService {
         accommodation.setCategory_prices(request.getCategory_prices());
         accommodation.setLatitude(request.getLatitude());
         accommodation.setLongitude(request.getLongitude());
-        Map<String, String> map = new HashMap<>();
-        for (int i = 0; i < request.getPictures().size(); i++) {
-            String url = cloudinaryService.uploadFile(request.getPictures().get(i),"travelwise_accommodation");
-            map.put("pict_1" + i, url);
-        }
-        accommodation.setPictures(map);
+//        Map<String, String> map = new HashMap<>();
+//        for (int i = 0; i < request.getPictures().size(); i++) {
+//            String url = cloudinaryService.uploadFile(request.getPictures().get(i),"travelwise_accommodation");
+//            map.put("pict_1" + i, url);
+//        }
+//        accommodation.setPictures(map);
         return accommodationRepository.save(accommodation);
     }
 
@@ -64,19 +70,19 @@ public class AccommodationServiceImpl implements AccommodationService {
         updateAccomm.setLatitude(request.getLatitude());
         updateAccomm.setLongitude(request.getLongitude());
         // picture tidak diganti saat update, karena ada fiturnya sendiri
-        updateAccomm.setPictures(updateAccomm.getPictures());
+//        updateAccomm.setPictures(updateAccomm.getPictures());
         return accommodationRepository.save(updateAccomm);
     }
 
     @Override
     public void changePicture(AccommodationChangePictureDTO request, Long id) {
         Accommodation changePictureAccomm = this.getById(id);
-        Map<String, String> map = new HashMap<>();
-        for (int i = 0; i < request.getPictures().size(); i++) {
-            String url = cloudinaryService.uploadFile(request.getPictures().get(i),"travelwise_accommodation");
-            map.put("pict_1" + i, url);
-        }
-        changePictureAccomm.setPictures(map);
+//        Map<String, String> map = new HashMap<>();
+//        for (int i = 0; i < request.getPictures().size(); i++) {
+//            String url = cloudinaryService.uploadFile(request.getPictures().get(i),"travelwise_accommodation");
+//            map.put("pict_1" + i, url);
+//        }
+//        changePictureAccomm.setPictures(map);
         // yang lainnya tidak diganti karena sudah diprovide di fitur update
         changePictureAccomm.setName(changePictureAccomm.getName());
         changePictureAccomm.setDescription(changePictureAccomm.getDescription());
