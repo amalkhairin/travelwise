@@ -1,12 +1,9 @@
 package enigma.travelwise.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import enigma.travelwise.model.Accommodation;
 import enigma.travelwise.repository.AccommodationRepository;
 import enigma.travelwise.service.AccommodationService;
 import enigma.travelwise.service.CloudinaryService;
-import enigma.travelwise.utils.dto.AccommodationChangePictureDTO;
 import enigma.travelwise.utils.dto.AccommodationDTO;
 import enigma.travelwise.utils.specification.AccommodationSpecification;
 import lombok.RequiredArgsConstructor;
@@ -43,18 +40,6 @@ public class AccommodationServiceImpl implements AccommodationService {
     }
 
     @Override
-    public Accommodation uploadPhoto(List<MultipartFile> files, Long id) {
-        Accommodation accommodation = this.getById(id);
-        Map<String, String> map = new HashMap<>();
-        for (int i = 0; i < files.size(); i++) {
-            String url = cloudinaryService.uploadFile(files.get(i),"travelwise_accommodation");
-            map.put("pict_1" + i, url);
-        }
-        accommodation.setPictures(map);
-        return accommodationRepository.save(accommodation);
-    }
-
-    @Override
     public List<Accommodation> getAll(String name, String location, String category) {
         Specification<Accommodation> specification = AccommodationSpecification.getSpecification(name, location, category);
         return accommodationRepository.findAll(specification);
@@ -63,9 +48,19 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Override
     public Accommodation getById(Long id) {
         return accommodationRepository.findById(id)
-                .orElse(null);
-//                .orElseThrow(() -> new RuntimeException("ACCOMMODATION WITH ID + " + id + " NOT FOUND")
+                .orElseThrow(() -> new RuntimeException("ACCOMMODATION WITH ID + " + id + " NOT FOUND"));
+    }
 
+    @Override
+    public Accommodation updatePhoto(List<MultipartFile> files, Long id) {
+        Accommodation accommodation = this.getById(id);
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < files.size(); i++) {
+            String url = cloudinaryService.uploadFile(files.get(i),"travelwise_accommodation");
+            map.put("pict_" + i, url);
+        }
+        accommodation.setPictures(map);
+        return accommodationRepository.save(accommodation);
     }
 
     @Override
@@ -78,34 +73,14 @@ public class AccommodationServiceImpl implements AccommodationService {
         updateAccomm.setCategory_prices(request.getCategory_prices());
         updateAccomm.setLatitude(request.getLatitude());
         updateAccomm.setLongitude(request.getLongitude());
-        // picture tidak diganti saat update, karena ada fiturnya sendiri
-//        updateAccomm.setPictures(updateAccomm.getPictures());
         return accommodationRepository.save(updateAccomm);
     }
 
     @Override
-    public void changePicture(AccommodationChangePictureDTO request, Long id) {
-        Accommodation changePictureAccomm = this.getById(id);
-//        Map<String, String> map = new HashMap<>();
-//        for (int i = 0; i < request.getPictures().size(); i++) {
-//            String url = cloudinaryService.uploadFile(request.getPictures().get(i),"travelwise_accommodation");
-//            map.put("pict_1" + i, url);
-//        }
-//        changePictureAccomm.setPictures(map);
-        // yang lainnya tidak diganti karena sudah diprovide di fitur update
-        changePictureAccomm.setName(changePictureAccomm.getName());
-        changePictureAccomm.setDescription(changePictureAccomm.getDescription());
-        changePictureAccomm.setLocation(changePictureAccomm.getLocation());
-        changePictureAccomm.setCategory(changePictureAccomm.getCategory());
-        changePictureAccomm.setCategory_prices(changePictureAccomm.getCategory_prices());
-        changePictureAccomm.setLatitude(changePictureAccomm.getLatitude());
-        changePictureAccomm.setLongitude(changePictureAccomm.getLongitude());
-        accommodationRepository.save(changePictureAccomm);
-    }
-
-    @Override
-    public void deleteById(Long id) {
+    public String deleteById(Long id) {
         Accommodation deleteAccomm = this.getById(id);
         accommodationRepository.delete(deleteAccomm);
+        String result = "Accommodation with id " + id + " deleted";
+        return result;
     }
 }

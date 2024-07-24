@@ -1,7 +1,6 @@
 package enigma.travelwise.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import enigma.travelwise.model.Accommodation;
 import enigma.travelwise.service.AccommodationService;
 import enigma.travelwise.utils.dto.AccommodationDTO;
 import enigma.travelwise.utils.response.Response;
@@ -25,10 +24,33 @@ public class AccommodationController {
         return Response.renderJSON(accommodationService.create(request), "ACCOMMODATION CREATED");
     }
 
-    @PutMapping("/{id}")
-    private ResponseEntity<?> upload(@RequestPart("file")List<MultipartFile> files,
+    @PutMapping("/update-photo/{id}")
+    private ResponseEntity<?> updatePhoto(@RequestPart("file")List<MultipartFile> files,
                                      @PathVariable Long id) throws JsonProcessingException {
-        return Response.renderJSON(accommodationService.uploadPhoto(files, id), "PHOTOS UPLOADED");
+        return Response.renderJSON(accommodationService.updatePhoto(files, id), "PHOTOS UPLOADED");
+    }
+
+    @GetMapping
+    private ResponseEntity<?> getAll(@RequestParam (required = false) String name,
+                                     @RequestParam (required = false) String category,
+                                     @RequestParam (required = false) String location) {
+        return Response.renderJSON(accommodationService.getAll(name, location, category), "SHOW ALL ACCOMMODATIONS");
+    }
+
+    @GetMapping("/{id}")
+    private ResponseEntity<?> getById(@PathVariable Long id) {
+        return Response.renderJSON(accommodationService.getById(id), "SHOW ACCOMMODATION BY ID");
+    }
+
+    @PutMapping("/update/{id}")
+    private ResponseEntity<?> update(@RequestBody AccommodationDTO request,
+                                     @PathVariable Long id) {
+        return Response.renderJSON(accommodationService.update(request, id), "ACCOMMODATION UPDATED");
+    }
+
+    @DeleteMapping("/{id}")
+    private ResponseEntity<?> delete(@PathVariable Long id) {
+        return Response.renderJSON(accommodationService.deleteById(id), "ACCOMMODATION DELETED");
     }
 
 

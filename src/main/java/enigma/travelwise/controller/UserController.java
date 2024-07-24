@@ -34,7 +34,7 @@ public class UserController {
     }
 
     @PutMapping("/update/{id}")
-    private ResponseEntity<?> update(UserUpdateDTO request,
+    private ResponseEntity<?> update(@RequestBody UserUpdateDTO request,
                                          @PathVariable Long id) {
         return Response.renderJSON(userService.update(request, id), "USER UPDATED");
     }
@@ -46,15 +46,14 @@ public class UserController {
     }
 
     @PutMapping("/change-location/{id}")
-    private ResponseEntity<?> changeLocation(UserChangeLocationDTO request,
+    private ResponseEntity<?> changeLocation(@RequestBody UserChangeLocationDTO request,
                                              @PathVariable Long id) {
-        return Response.renderJSON(userService.changeLocation(request, id), "PROFILE PICTURE CHANGED");
+        return Response.renderJSON(userService.changeLocation(request, id), "USER LOCATION CHANGED");
     }
 
     @DeleteMapping("/{id}")
     private ResponseEntity<?> delete(@PathVariable Long id) {
-        userService.deleteById(id);
-        return Response.renderJSON("USER DELETED");
+        return Response.renderJSON(userService.deleteById(id), "USER DELETED SUCCESSFULLY");
     }
 
 
