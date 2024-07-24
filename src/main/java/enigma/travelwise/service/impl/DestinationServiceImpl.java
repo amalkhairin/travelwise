@@ -10,7 +10,6 @@ import enigma.travelwise.utils.dto.DestionationDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -35,27 +34,13 @@ public class DestinationServiceImpl implements DestinationService {
                 .latitude(req.getLatitude())
                 .longitude(req.getLongitude())
                 .build();
-//        Map<String, String> map_url = new HashMap<>();
-//        for (int i = 0; i < files.size(); i++) {
-//            String url = cloudinaryService.uploadFile(files.get(i), "travelwise_destinations");
-//            map_url.put("pict_" + i, url);
-//        }
-//
-//        destination.setPictures(map_url);
-        return destinationRepository.save(destination);
-    }
-
-    @Override
-    public Destination uploadPhoto(List<MultipartFile> files, Long id) {
-        Destination destination = this.getById(id);
         Map<String, String> map_url = new HashMap<>();
-        for (int i = 0; i < files.size(); i++) {
-            String url = cloudinaryService.uploadFile(files.get(i), "travelwise_destinations");
+        for (int i = 0; i < req.getPictures().size(); i++) {
+            String url = cloudinaryService.uploadFile(req.getPictures().get(i), "travelwise_destinations");
             map_url.put("pict_" + i, url);
         }
 
         destination.setPictures(map_url);
-//        return destination;
         return destinationRepository.save(destination);
     }
 
@@ -66,7 +51,7 @@ public class DestinationServiceImpl implements DestinationService {
 
     @Override
     public Destination getById(Long id) {
-        return destinationRepository.findById(id).orElse(null);
+        return null;
     }
 
     @Override

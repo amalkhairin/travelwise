@@ -1,6 +1,5 @@
 package enigma.travelwise.model;
 import enigma.travelwise.utils.JsonConverter;
-import enigma.travelwise.utils.JsonConverterString;
 import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
@@ -27,7 +26,7 @@ public class Destination {
     private String categories;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Convert(converter = JsonConverterString.class)
+    @Convert(converter = JsonConverter.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, String> pictures;
 
