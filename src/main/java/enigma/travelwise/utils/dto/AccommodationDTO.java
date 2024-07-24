@@ -29,7 +29,6 @@ public class AccommodationDTO {
 
     private List<MultipartFile> pictures;
 
-    @Column(columnDefinition = "jsonb")
     private Map<String, Integer> category_prices;
 
     @NotNull
