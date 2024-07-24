@@ -26,7 +26,7 @@ public class DestionationDTO {
     @NotBlank
     private String categories;
 
-    private Map<String, MultipartFile> pictures;
+//    private Map<String, MultipartFile> pictures;
     private Double latitude;
     private Double longitude;
     private Map<String, Integer> category_prices;

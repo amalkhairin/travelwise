@@ -1,6 +1,7 @@
 package enigma.travelwise.model;
 
 import enigma.travelwise.utils.JsonConverter;
+import enigma.travelwise.utils.JsonConverterString;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -36,7 +37,7 @@ public class Accommodation {
     private String category;
 
     @JdbcTypeCode(SqlTypes.JSON)
-    @Convert(converter = JsonConverter.class)
+    @Convert(converter = JsonConverterString.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, String> pictures;
 

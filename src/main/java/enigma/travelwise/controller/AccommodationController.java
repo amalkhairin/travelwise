@@ -1,5 +1,6 @@
 package enigma.travelwise.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import enigma.travelwise.model.Accommodation;
 import enigma.travelwise.service.AccommodationService;
 import enigma.travelwise.utils.dto.AccommodationDTO;
@@ -26,7 +27,7 @@ public class AccommodationController {
 
     @PutMapping("/{id}")
     private ResponseEntity<?> upload(@RequestPart("file")List<MultipartFile> files,
-                                     @PathVariable Long id) {
+                                     @PathVariable Long id) throws JsonProcessingException {
         return Response.renderJSON(accommodationService.uploadPhoto(files, id), "PHOTOS UPLOADED");
     }
 
