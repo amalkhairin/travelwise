@@ -24,7 +24,6 @@ public class DestinationServiceImpl implements DestinationService {
 
     @Override
     public Destination create(DestionationDTO req) throws JsonProcessingException {
-        ObjectMapper objectMapper = new ObjectMapper();
         Destination destination = Destination.builder()
                 .name(req.getName())
                 .categories(req.getCategories())
