@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.List;
@@ -38,12 +39,18 @@ public class AccommodationServiceImpl implements AccommodationService {
         accommodation.setCategory_prices(request.getCategory_prices());
         accommodation.setLatitude(request.getLatitude());
         accommodation.setLongitude(request.getLongitude());
-//        Map<String, String> map = new HashMap<>();
-//        for (int i = 0; i < request.getPictures().size(); i++) {
-//            String url = cloudinaryService.uploadFile(request.getPictures().get(i),"travelwise_accommodation");
-//            map.put("pict_1" + i, url);
-//        }
-//        accommodation.setPictures(map);
+        return accommodationRepository.save(accommodation);
+    }
+
+    @Override
+    public Accommodation uploadPhoto(List<MultipartFile> files, Long id) {
+        Accommodation accommodation = this.getById(id);
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < files.size(); i++) {
+            String url = cloudinaryService.uploadFile(files.get(i),"travelwise_accommodation");
+            map.put("pict_1" + i, url);
+        }
+        accommodation.setPictures(map);
         return accommodationRepository.save(accommodation);
     }
 

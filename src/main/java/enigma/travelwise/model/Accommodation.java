@@ -35,10 +35,10 @@ public class Accommodation {
 //    @NotBlank
     private String category;
 
-//    @JdbcTypeCode(SqlTypes.JSON)
-//    @Convert(converter = JsonConverter.class)
-//    @Column(columnDefinition = "jsonb")
-//    private Map<String, String> pictures;
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = JsonConverter.class)
+    @Column(columnDefinition = "jsonb")
+    private Map<String, String> pictures;
 
     @JdbcTypeCode(SqlTypes.JSON)
     @Convert(converter = JsonConverter.class)

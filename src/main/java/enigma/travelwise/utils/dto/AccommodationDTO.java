@@ -28,8 +28,6 @@ public class AccommodationDTO {
 //    @NotBlank
     private String category;
 
-//    private Map<String, MultipartFile> pictures;
-
     private Map<String, Integer> category_prices;
 
 //    @NotNull
