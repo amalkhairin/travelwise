@@ -27,4 +27,9 @@ public class DestinationController {
     public ResponseEntity<?> update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
         return Response.renderJSON(destinationService.uploadPhoto(files, id), "DESTINATION UPDATED");
     }
+
+    @PutMapping("/{id}")
+    public Destination update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
+        return destinationService.uploadPhoto(files, id);
+    }
 }

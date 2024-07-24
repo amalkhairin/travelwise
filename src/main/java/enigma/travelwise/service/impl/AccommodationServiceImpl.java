@@ -48,7 +48,9 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Override
     public Accommodation getById(Long id) {
         return accommodationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ACCOMMODATION WITH ID + " + id + " NOT FOUND"));
+                .orElse(null);
+//                .orElseThrow(() -> new RuntimeException("ACCOMMODATION WITH ID + " + id + " NOT FOUND")
+
     }
 
     @Override
