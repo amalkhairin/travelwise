@@ -2,6 +2,7 @@ package enigma.travelwise.service.impl;
 
 import enigma.travelwise.model.OrderDetailDestination;
 import enigma.travelwise.repository.OrderDetailDestinationRepository;
+import enigma.travelwise.service.DestinationService;
 import enigma.travelwise.service.OrderDestinationService;
 import enigma.travelwise.service.OrderDetailDestinationService;
 import enigma.travelwise.service.UserService;
@@ -16,13 +17,14 @@ import java.util.List;
 public class OrderDetailDestinationImpl implements OrderDetailDestinationService {
     private final OrderDetailDestinationRepository orderDetailDestinationRepository;
     private final OrderDestinationService orderDestinationService;
+    private final DestinationService destinationService;
 
 
     @Override
     public OrderDetailDestination create(OrderDetailDestinationDTO orderDetailDestinationDTO) {
         OrderDetailDestination orderDetailDestination = OrderDetailDestination.builder()
                 .orderDestinationId(orderDestinationService.getById(orderDetailDestinationDTO.getOrderDestinationId()))
-                //destinationservice
+                .destinationId(destinationService.getById(orderDetailDestinationDTO.getOrderDestinationId()))
                 .price(orderDetailDestinationDTO.getPrice())
                 .quantity(orderDetailDestinationDTO.getQuantity())
                 .categoryTicket(orderDetailDestinationDTO.getCategoryTicket())

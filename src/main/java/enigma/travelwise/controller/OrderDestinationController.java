@@ -1,11 +1,15 @@
 package enigma.travelwise.controller;
 
+import enigma.travelwise.model.OrderDestination;
+import enigma.travelwise.model.OrderDetailDestination;
 import enigma.travelwise.service.OrderDestinationService;
 import enigma.travelwise.utils.dto.OrderDestinationDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/orderDestination")
@@ -14,13 +18,13 @@ public class OrderDestinationController {
     private OrderDestinationService orderDestinationService;
 
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody OrderDestinationDTO orderDestinationDTO){
-        return null;
+    public OrderDestination create(@Valid @RequestBody OrderDestinationDTO orderDestinationDTO){
+        return orderDestinationService.create(orderDestinationDTO);
     }
 
     @GetMapping
-    public ResponseEntity<?>getAll(){
-        return null;
+    public List<OrderDestination> getAll(){
+        return orderDestinationService.getall();
     }
 
     @GetMapping
