@@ -24,16 +24,16 @@ public class Accommodation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    //    @NotBlank
+//    @NotBlank
     private String name;
 
-    //    @NotBlank
+//    @NotBlank
     private String description;
 
-    //    @NotBlank
+//    @NotBlank
     private String location;
 
-    //    @NotBlank
+//    @NotBlank
     private String category;
 
     @JdbcTypeCode(SqlTypes.JSON)
@@ -46,10 +46,10 @@ public class Accommodation {
     @Column(columnDefinition = "jsonb")
     private Map<String, Integer> category_prices;
 
-    //    @NotNull
+//    @NotNull
     private Double latitude;
 
-    //    @NotNull
+//    @NotNull
     private Double longitude;
 
 }

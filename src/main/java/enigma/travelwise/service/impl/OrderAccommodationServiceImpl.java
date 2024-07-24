@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -31,16 +33,27 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
         List<OrderAccommodationDetailDTO> details = request.getOrderAccommodationDetails();
         OrderAccommodation newOrderAccommodation = new OrderAccommodation();
         newOrderAccommodation.setUser(user);
+        newOrderAccommodation.setCheckIn(request.getCheckIn());
+        newOrderAccommodation.setCheckOut(request.getCheckOut());
 
         OrderAccommodation result = orderAccommodationRepository.save(newOrderAccommodation);
-        Integer pricePlaceHolder = 0;
+//        Integer pricePlaceHolder = 0;
         for (OrderAccommodationDetailDTO detail : details) {
             detail.setOrderAccommodation(result);
-            pricePlaceHolder += detail.getPrice();
+//            pricePlaceHolder += detail.getPrice();
             orderAccommodationDetailService.create(detail);
         }
+        if (request.getCheckIn().isAfter(request.getCheckOut())) {
+            throw new IllegalArgumentException("Check-in date must be before the checkout date.");
+        }
 
-        result.setTotalPrice(pricePlaceHolder);
+//        LocalDate checkIn = request.getCheckIn();
+//        LocalDate checkout = request.getCheckOut();
+
+//        long dayStay = ChronoUnit.DAYS.between(checkIn, checkout);
+//        pricePlaceHolder *= (int) dayStay;
+
+//        result.setTotalPrice(pricePlaceHolder);
         orderAccommodationRepository.save(result);
 
         return result;

@@ -9,8 +9,9 @@ import lombok.*;
 @Setter
 @Builder
 public class OrderAccommodationDetailDTO {
-    private Integer price;
+    private String category;
     private Integer quantity;
-    private Integer accommodationId;
+    private Long accommodationId;
     private OrderAccommodation orderAccommodation;
+
 }
