@@ -27,7 +27,7 @@ public class OrderDetailDestinationController {
         return orderDetailDestinationService.getall();
     }
 
-    @GetMapping
+    @GetMapping ("/{id}")
     public ResponseEntity<?>getById(@PathVariable Long id){
         return null;
     }
