@@ -9,6 +9,8 @@ import enigma.travelwise.service.UserService;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.dto.OrderAccommodationDetailDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +18,11 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderAccommodationServiceImpl implements OrderAccommodationService {
+    @Autowired
     private final OrderAccommodationRepository orderAccommodationRepository;
+    @Autowired
     private final OrderAccommodationDetailService orderAccommodationDetailService;
+    @Autowired
     private final UserService userService;
 
     @Override

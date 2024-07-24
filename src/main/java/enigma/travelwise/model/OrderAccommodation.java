@@ -29,6 +29,6 @@ public class OrderAccommodation {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "orderAccommodation")
     private List<OrderAccommodationDetail> accommodationDetails = new ArrayList<>();
 }

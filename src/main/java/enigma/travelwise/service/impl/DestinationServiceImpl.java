@@ -1,5 +1,7 @@
 package enigma.travelwise.service.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import enigma.travelwise.model.Destination;
 import enigma.travelwise.repository.DestinationRepository;
 import enigma.travelwise.service.CloudinaryService;
@@ -21,13 +23,14 @@ public class DestinationServiceImpl implements DestinationService {
     private final DestinationRepository destinationRepository;
 
     @Override
-    public Destination create(DestionationDTO req) {
+    public Destination create(DestionationDTO req) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
         Destination destination = Destination.builder()
                 .name(req.getName())
                 .categories(req.getCategories())
                 .description(req.getDescription())
                 .locations(req.getLocations())
-                .category_prices(req.getCategory_prices())
+                .categoryPrices(req.getCategory_prices())
                 .latitude(req.getLatitude())
                 .longitude(req.getLongitude())
                 .build();
@@ -39,7 +42,6 @@ public class DestinationServiceImpl implements DestinationService {
 
         destination.setPictures(map_url);
         return destinationRepository.save(destination);
-
     }
 
     @Override

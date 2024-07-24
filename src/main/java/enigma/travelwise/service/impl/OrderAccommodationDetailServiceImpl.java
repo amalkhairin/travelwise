@@ -6,9 +6,11 @@ import enigma.travelwise.service.OrderAccommodationDetailService;
 import enigma.travelwise.service.OrderAccommodationService;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.dto.OrderAccommodationDetailDTO;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class OrderAccommodationDetailServiceImpl implements OrderAccommodationDetailService {
 
     @Override

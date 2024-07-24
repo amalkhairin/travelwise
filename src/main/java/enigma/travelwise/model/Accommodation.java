@@ -33,10 +33,10 @@ public class Accommodation {
     private String category;
 
     @Column(columnDefinition = "jsonb")
-    private Map<String, String> pictures;
+    private String pictures;
 
     @Column(columnDefinition = "jsonb")
-    private Map<String, Integer> category_prices;
+    private String category_prices;
 
     @NotNull
     private Double latitude;
