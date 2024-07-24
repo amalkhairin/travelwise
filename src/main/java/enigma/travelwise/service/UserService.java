@@ -14,5 +14,5 @@ public interface UserService {
     UserEntity update(UserUpdateDTO request, Long id);
     String changeProfilePicture(UserChangeProfilePictureDTO request, Long id);
     String changeLocation(UserChangeLocationDTO request, Long id);
-    void deleteById(Long id);
+    String deleteById(Long id);
 }

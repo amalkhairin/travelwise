@@ -6,10 +6,10 @@ import enigma.travelwise.service.DestinationService;
 import enigma.travelwise.utils.dto.DestionationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/destinations")
@@ -19,5 +19,10 @@ public class DestinationController {
     @PostMapping
     public Destination create(@RequestBody DestionationDTO request) throws JsonProcessingException {
         return destinationService.create(request);
+    }
+
+    @PutMapping("/{id}")
+    public Destination update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
+        return destinationService.uploadPhoto(files, id);
     }
 }
