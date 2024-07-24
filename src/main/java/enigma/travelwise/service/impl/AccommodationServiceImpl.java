@@ -5,14 +5,21 @@ import enigma.travelwise.repository.AccommodationRepository;
 import enigma.travelwise.service.AccommodationService;
 import enigma.travelwise.service.CloudinaryService;
 import enigma.travelwise.utils.dto.AccommodationDTO;
+import enigma.travelwise.utils.specification.AccommodationSpecification;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class AccommodationServiceImpl implements AccommodationService {
     @Autowired
     private CloudinaryService cloudinaryService;
@@ -20,27 +27,60 @@ public class AccommodationServiceImpl implements AccommodationService {
     private AccommodationRepository accommodationRepository;
 
     @Override
-    public ResponseEntity<Map> create(AccommodationDTO request) {
-        return null;
+    public Accommodation create(AccommodationDTO request) {
+        Accommodation accommodation = new Accommodation();
+        accommodation.setName(request.getName());
+        accommodation.setDescription(request.getDescription());
+        accommodation.setLocation(request.getLocation());
+        accommodation.setCategory(request.getCategory());
+        accommodation.setCategory_prices(request.getCategory_prices());
+        accommodation.setLatitude(request.getLatitude());
+        accommodation.setLongitude(request.getLongitude());
+        return accommodationRepository.save(accommodation);
     }
 
     @Override
-    public List<Accommodation> getAll() {
-        return List.of();
+    public List<Accommodation> getAll(String name, String location, String category) {
+        Specification<Accommodation> specification = AccommodationSpecification.getSpecification(name, location, category);
+        return accommodationRepository.findAll(specification);
     }
 
     @Override
-    public Accommodation getById(Integer id) {
-        return null;
+    public Accommodation getById(Long id) {
+        return accommodationRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("ACCOMMODATION WITH ID + " + id + " NOT FOUND"));
     }
 
     @Override
-    public ResponseEntity<Map> update(AccommodationDTO request, Integer id) {
-        return null;
+    public Accommodation updatePhoto(List<MultipartFile> files, Long id) {
+        Accommodation accommodation = this.getById(id);
+        Map<String, String> map = new HashMap<>();
+        for (int i = 0; i < files.size(); i++) {
+            String url = cloudinaryService.uploadFile(files.get(i),"travelwise_accommodation");
+            map.put("pict_" + i, url);
+        }
+        accommodation.setPictures(map);
+        return accommodationRepository.save(accommodation);
     }
 
     @Override
-    public void deleteById(Integer id) {
+    public Accommodation update(AccommodationDTO request, Long id) {
+        Accommodation updateAccomm = this.getById(id);
+        updateAccomm.setName(request.getName());
+        updateAccomm.setDescription(request.getDescription());
+        updateAccomm.setLocation(request.getLocation());
+        updateAccomm.setCategory(request.getCategory());
+        updateAccomm.setCategory_prices(request.getCategory_prices());
+        updateAccomm.setLatitude(request.getLatitude());
+        updateAccomm.setLongitude(request.getLongitude());
+        return accommodationRepository.save(updateAccomm);
+    }
 
+    @Override
+    public String deleteById(Long id) {
+        Accommodation deleteAccomm = this.getById(id);
+        accommodationRepository.delete(deleteAccomm);
+        String result = "Accommodation with id " + id + " deleted";
+        return result;
     }
 }

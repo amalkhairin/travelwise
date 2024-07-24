@@ -4,14 +4,16 @@ import enigma.travelwise.model.UserEntity;
 import enigma.travelwise.repository.UserRepository;
 import enigma.travelwise.service.CloudinaryService;
 import enigma.travelwise.service.UserService;
+import enigma.travelwise.utils.dto.UserChangeLocationDTO;
+import enigma.travelwise.utils.dto.UserChangeProfilePictureDTO;
 import enigma.travelwise.utils.dto.UserDTO;
+import enigma.travelwise.utils.dto.UserUpdateDTO;
 import enigma.travelwise.utils.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -46,22 +48,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity update(UserDTO request, Long id) {
+    public UserEntity update(UserUpdateDTO request, Long id) {
         UserEntity updatedUser = this.getById(id);
         updatedUser.setName(request.getName());
         updatedUser.setEmail(request.getEmail());
         updatedUser.setPassword(request.getPassword());
         updatedUser.setPhone_number(request.getPhone_number());
-        updatedUser.setProfile_picture(cloudinaryService.uploadFile(request.getProfile_picture(), "travelwise_user"));
-        // Latitude Longitude tidak diganti, sama seperti yang sebelumnya
-        updatedUser.setLatitude(updatedUser.getLatitude());
-        updatedUser.setLongitude(updatedUser.getLongitude());
         return userRepository.save(updatedUser);
     }
 
     @Override
-    public void deleteById(Long id) {
+    public String changeProfilePicture(UserChangeProfilePictureDTO request, Long id) {
+        UserEntity changeProfile = this.getById(id);
+        changeProfile.setProfile_picture(cloudinaryService.uploadFile(request.getProfile_picture(), "travelwise_user"));
+        userRepository.save(changeProfile);
+        String url = changeProfile.getProfile_picture();
+        String result = "New profile picture : " + url;
+        return result;
+    }
+
+    @Override
+    public String changeLocation(UserChangeLocationDTO request, Long id) {
+        UserEntity changeLocation = this.getById(id);
+        changeLocation.setLatitude(request.getLatitude());
+        changeLocation.setLongitude(request.getLongitude());
+        userRepository.save(changeLocation);
+        String result = "Newest location => latitude = " + changeLocation.getLatitude() + " | longitude = " + changeLocation.getLongitude();
+        return result;
+    }
+
+    @Override
+    public String deleteById(Long id) {
         UserEntity deleteUser = this.getById(id);
         userRepository.delete(deleteUser);
+        String result = "User with id " + id + " deleted";
+        return result;
     }
 }

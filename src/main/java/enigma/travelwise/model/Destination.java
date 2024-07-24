@@ -1,41 +1,42 @@
 package enigma.travelwise.model;
-
-import io.hypersistence.utils.hibernate.type.json.JsonBinaryType;
-import jakarta.persistence.*;
+import enigma.travelwise.utils.JsonConverter;
+import enigma.travelwise.utils.JsonConverterString;
 import lombok.*;
-import org.hibernate.annotations.JdbcType;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+import jakarta.persistence.*;
 
-import java.sql.SQLType;
-import java.util.List;
 import java.util.Map;
 
 @Entity
-@Table(name = "Destinations")
+@Table(name = "destinations")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class Destination {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
     private String description;
     private String locations;
-
     private String categories;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = JsonConverterString.class)
     @Column(columnDefinition = "jsonb")
     private Map<String, String> pictures;
 
     private Double latitude;
     private Double longitude;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = JsonConverter.class)
     @Column(columnDefinition = "jsonb")
-    private Map<String, Integer> category_prices;
-
-
+    private Map<String, Integer> categoryPrices;
 }
+
