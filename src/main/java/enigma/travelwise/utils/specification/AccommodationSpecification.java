@@ -17,11 +17,11 @@ public class AccommodationSpecification {
             }
 
             if (location != null && !location.isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("name"), "%" + location + "%"));
+                predicates.add(criteriaBuilder.like(root.get("location"), "%" + location + "%"));
             }
 
             if (category != null && !category.isEmpty()) {
-                predicates.add(criteriaBuilder.like(root.get("name"), "%" + category + "%"));
+                predicates.add(criteriaBuilder.like(root.get("category"), "%" + category + "%"));
             }
 
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));

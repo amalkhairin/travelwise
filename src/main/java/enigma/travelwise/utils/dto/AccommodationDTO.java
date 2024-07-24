@@ -1,40 +1,38 @@
 package enigma.travelwise.utils.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 import java.util.Map;
 
+@Data
 @Getter
 @Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AccommodationDTO {
-    @NotBlank
+//    @NotBlank
     private String name;
 
-    @NotBlank
+//    @NotBlank
     private String description;
 
-    @NotBlank
+//    @NotBlank
     private String location;
 
-    @NotBlank
+//    @NotBlank
     private String category;
 
-    private List<MultipartFile> pictures;
-
-    @Column(columnDefinition = "jsonb")
     private Map<String, Integer> category_prices;
 
-    @NotNull
+//    @NotNull
     private Double latitude;
 
-    @NotNull
+//    @NotNull
     private Double longitude;
 }

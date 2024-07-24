@@ -1,9 +1,13 @@
 package enigma.travelwise.model;
 
+import enigma.travelwise.utils.JsonConverter;
+import enigma.travelwise.utils.JsonConverterString;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.util.Map;
 
@@ -20,28 +24,32 @@ public class Accommodation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
+    //    @NotBlank
     private String name;
 
-    @NotBlank
+    //    @NotBlank
     private String description;
 
-    @NotBlank
+    //    @NotBlank
     private String location;
 
-    @NotBlank
+    //    @NotBlank
     private String category;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = JsonConverterString.class)
     @Column(columnDefinition = "jsonb")
-    private String pictures;
+    private Map<String, String> pictures;
 
+    @JdbcTypeCode(SqlTypes.JSON)
+    @Convert(converter = JsonConverter.class)
     @Column(columnDefinition = "jsonb")
-    private String category_prices;
+    private Map<String, Integer> category_prices;
 
-    @NotNull
+    //    @NotNull
     private Double latitude;
 
-    @NotNull
+    //    @NotNull
     private Double longitude;
 
 }
