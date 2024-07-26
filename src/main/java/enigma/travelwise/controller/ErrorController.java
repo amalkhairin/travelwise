@@ -30,4 +30,6 @@ public class ErrorController {
     public ResponseEntity<?> handleRuntimeException(RuntimeException e) {
         return Response.renderJSON(null, e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+
 }
