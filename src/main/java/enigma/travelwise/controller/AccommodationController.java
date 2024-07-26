@@ -25,15 +25,15 @@ public class AccommodationController {
     }
 
     @PutMapping("/update-photo/{id}")
-    private ResponseEntity<?> updatePhoto(@RequestPart("file")List<MultipartFile> files,
-                                     @PathVariable Long id) throws JsonProcessingException {
+    private ResponseEntity<?> updatePhoto(@RequestPart("file") List<MultipartFile> files,
+                                          @PathVariable Long id) throws JsonProcessingException {
         return Response.renderJSON(accommodationService.updatePhoto(files, id), "PHOTOS UPLOADED");
     }
 
     @GetMapping
-    private ResponseEntity<?> getAll(@RequestParam (required = false) String name,
-                                     @RequestParam (required = false) String category,
-                                     @RequestParam (required = false) String location) {
+    private ResponseEntity<?> getAll(@RequestParam(required = false) String name,
+                                     @RequestParam(required = false) String category,
+                                     @RequestParam(required = false) String location) {
         return Response.renderJSON(accommodationService.getAll(name, location, category), "SHOW ALL ACCOMMODATIONS");
     }
 

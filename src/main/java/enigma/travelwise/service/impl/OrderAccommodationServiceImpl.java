@@ -11,10 +11,11 @@ import enigma.travelwise.service.OrderAccommodationService;
 import enigma.travelwise.service.UserService;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.dto.OrderAccommodationDetailDTO;
+import enigma.travelwise.utils.specification.OrderAccommodationSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -44,7 +45,7 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
         newOrderAccommodation.setCheckOut(request.getCheckOut());
 
         OrderAccommodation result = orderAccommodationRepository.save(newOrderAccommodation);
-        Integer pricePlaceHolder = 0;
+        int pricePlaceHolder = 0;
         List<OrderAccommodationDetail> oad_list = new ArrayList<>();
         for (OrderAccommodationDetailDTO detail : details) {
             Accommodation acc = accommodationService.getById(detail.getAccommodationId());
@@ -69,7 +70,7 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
         }
 
 
-        log.warn(pricePlaceHolder.toString());
+        log.warn(Integer.toString(pricePlaceHolder));
 
         LocalDate checkIn = request.getCheckIn();
         LocalDate checkout = request.getCheckOut();
@@ -86,8 +87,9 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
     }
 
     @Override
-    public List<OrderAccommodation> getAll() {
-        return orderAccommodationRepository.findAll();
+    public List<OrderAccommodation> getAll(Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
+        Specification<OrderAccommodation> specification = OrderAccommodationSpecification.getSpecification(userId, totalPrice, checkIn, checkOut);
+        return orderAccommodationRepository.findAll(specification);
     }
 
     @Override

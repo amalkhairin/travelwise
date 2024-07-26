@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import enigma.travelwise.model.Destination;
 import enigma.travelwise.service.DestinationService;
 import enigma.travelwise.utils.dto.DestionationDTO;
+import enigma.travelwise.utils.response.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,12 +19,12 @@ import java.util.List;
 public class DestinationController {
     private final DestinationService destinationService;
     @PostMapping
-    public Destination create(@RequestBody DestionationDTO request) throws JsonProcessingException {
-        return destinationService.create(request);
+    public ResponseEntity<?> create(@RequestBody DestionationDTO request) throws JsonProcessingException {
+        return Response.renderJSON(destinationService.create(request), "DESTINATION CREATED");
     }
 
     @PutMapping("/{id}")
-    public Destination update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
-        return destinationService.uploadPhoto(files, id);
+    public ResponseEntity<?> update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
+        return Response.renderJSON(destinationService.uploadPhoto(files, id), "DESTINATION UPDATED");
     }
 }

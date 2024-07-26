@@ -28,6 +28,7 @@ public class OrderAccommodationDetailServiceImpl implements OrderAccommodationDe
         newOrder.setQuantity(request.getQuantity());
         newOrder.setAccommodation(accommodation);
         newOrder.setOrderAccommodation(orderAccommodation);
+        newOrder.setCategoryRoom(request.getCategory());
 
         return orderAccommodationDetailRepository.save(newOrder);
     }
