@@ -9,7 +9,7 @@ import java.util.List;
 public interface OrderDetailDestinationService {
     OrderDetailDestination create (OrderDetailDestinationDTO orderDetailDestinationDTO);
     OrderDetailDestination getById (Long id);
-    List<OrderDetailDestination> getall ();
+    List<OrderDetailDestination> getAll ();
 
 //    OrderDetailDestination updateById ();
 //    void deleteByid();

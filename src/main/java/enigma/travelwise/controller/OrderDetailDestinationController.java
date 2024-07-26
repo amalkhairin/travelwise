@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/orderDetailDestination")
+@RequestMapping("/order_detail_destinations")
 @RequiredArgsConstructor
 public class OrderDetailDestinationController {
     private OrderDetailDestinationService orderDetailDestinationService;
@@ -24,7 +24,7 @@ public class OrderDetailDestinationController {
 
     @GetMapping
     public List<OrderDetailDestination> getAll(){
-        return orderDetailDestinationService.getall();
+        return orderDetailDestinationService.getAll();
     }
 
     @GetMapping ("/{id}")

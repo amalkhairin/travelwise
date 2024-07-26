@@ -24,7 +24,7 @@ public class OrderDetailDestinationImpl implements OrderDetailDestinationService
     public OrderDetailDestination create(OrderDetailDestinationDTO orderDetailDestinationDTO) {
         OrderDetailDestination orderDetailDestination = OrderDetailDestination.builder()
                 .orderDestinationId(orderDestinationService.getById(orderDetailDestinationDTO.getOrderDestinationId()))
-                .destinationId(destinationService.getById(orderDetailDestinationDTO.getOrderDestinationId()))
+                .destinationId(destinationService.getById(orderDetailDestinationDTO.getDestinationId()))
                 .price(orderDetailDestinationDTO.getPrice())
                 .quantity(orderDetailDestinationDTO.getQuantity())
                 .categoryTicket(orderDetailDestinationDTO.getCategoryTicket())
@@ -42,7 +42,7 @@ public class OrderDetailDestinationImpl implements OrderDetailDestinationService
     }
 
     @Override
-    public List<OrderDetailDestination> getall() {
+    public List<OrderDetailDestination> getAll() {
         return orderDetailDestinationRepository.findAll();
     }
 }

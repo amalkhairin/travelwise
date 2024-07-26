@@ -6,13 +6,14 @@ import enigma.travelwise.service.OrderDestinationService;
 import enigma.travelwise.utils.dto.OrderDestinationDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/orderDestination")
+@RequestMapping("/order_destinations")
 @RequiredArgsConstructor
 public class OrderDestinationController {
     private OrderDestinationService orderDestinationService;
@@ -24,7 +25,7 @@ public class OrderDestinationController {
 
     @GetMapping
     public List<OrderDestination> getAll(){
-        return orderDestinationService.getall();
+        return orderDestinationService.getAll();
     }
 
     @GetMapping("/{id}")

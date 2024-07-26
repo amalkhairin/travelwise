@@ -36,7 +36,7 @@ public class OrderDestinationImpl implements OrderDestinationService {
     }
 
     @Override
-    public List<OrderDestination> getall() {
+    public List<OrderDestination> getAll() {
         return orderDestinationRepository.findAll();
     }
 }
