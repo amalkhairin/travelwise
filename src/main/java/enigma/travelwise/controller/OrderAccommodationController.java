@@ -31,4 +31,11 @@ public class OrderAccommodationController {
     ) {
         return Response.renderJSON(orderAccommodationService.getAll(userId, totalPrice, checkIn, checkOut), "SHOW ALL ORDER ACCOMMODATION");
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getOne(
+            @PathVariable long id
+    ) {
+        return Response.renderJSON(orderAccommodationService.getOne(id), "SHOW ONE ORDER ACCOMMODATION");
+    }
 }
