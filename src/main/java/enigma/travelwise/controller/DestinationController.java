@@ -19,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DestinationController {
     private final DestinationService destinationService;
-    private final WeatherService weatherService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody DestionationDTO request) throws JsonProcessingException {
@@ -29,11 +28,6 @@ public class DestinationController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
         return Response.renderJSON(destinationService.uploadPhoto(files, id), "DESTINATION UPDATED");
-    }
-
-    @PutMapping("/{id}")
-    public Destination update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
-        return destinationService.uploadPhoto(files, id);
     }
 
     @GetMapping
