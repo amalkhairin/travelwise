@@ -10,6 +10,8 @@ import enigma.travelwise.utils.dto.UserDTO;
 import enigma.travelwise.utils.dto.UserUpdateDTO;
 import enigma.travelwise.utils.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -36,9 +38,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserEntity> getAll(String name) {
+    public Page<UserEntity> getAll(Pageable pageable, String name) {
         Specification<UserEntity> specification = UserSpecification.getSpecification(name);
-        return userRepository.findAll(specification);
+        return userRepository.findAll(specification, pageable);
     }
 
     @Override

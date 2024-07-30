@@ -9,6 +9,9 @@ import enigma.travelwise.utils.specification.OrderAccommodationSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -78,9 +81,9 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
     }
 
     @Override
-    public List<OrderAccommodation> getAll(Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
+    public Page<OrderAccommodation> getAll(Pageable pageable, Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
         Specification<OrderAccommodation> specification = OrderAccommodationSpecification.getSpecification(userId, totalPrice, checkIn, checkOut);
-        return orderAccommodationRepository.findAll(specification);
+        return orderAccommodationRepository.findAll(specification, pageable);
     }
 
     @Override

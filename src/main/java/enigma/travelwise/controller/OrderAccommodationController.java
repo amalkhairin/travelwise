@@ -6,6 +6,8 @@ import enigma.travelwise.service.TransactionService;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.response.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +28,13 @@ public class OrderAccommodationController {
 
     @GetMapping
     public ResponseEntity<?> getAll(
+            @PageableDefault Pageable pageable,
             @RequestParam(required = false) Long userId,
             @RequestParam(required = false) Integer totalPrice,
             @RequestParam(required = false) LocalDate checkIn,
             @RequestParam(required = false) LocalDate checkOut
     ) {
-        return Response.renderJSON(orderAccommodationService.getAll(userId, totalPrice, checkIn, checkOut), "SHOW ALL ORDER ACCOMMODATION");
+        return Response.renderJSON(orderAccommodationService.getAll(pageable, userId, totalPrice, checkIn, checkOut), "SHOW ALL ORDER ACCOMMODATION");
     }
 
     @GetMapping("/{id}")

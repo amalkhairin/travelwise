@@ -8,6 +8,8 @@ import enigma.travelwise.service.AccommodationService;
 import enigma.travelwise.service.OrderAccommodationDetailService;
 import enigma.travelwise.utils.dto.OrderAccommodationDetailDTO;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,8 +36,8 @@ public class OrderAccommodationDetailServiceImpl implements OrderAccommodationDe
     }
 
     @Override
-    public List<OrderAccommodationDetail> getAll() {
-        return List.of();
+    public Page<OrderAccommodationDetail> getAll(Pageable pageable) {
+        return orderAccommodationDetailRepository.findAll(pageable);
     }
 
     @Override
