@@ -2,6 +2,7 @@ package enigma.travelwise.controller;
 
 import enigma.travelwise.model.OrderAccommodation;
 import enigma.travelwise.service.OrderAccommodationService;
+import enigma.travelwise.service.TransactionService;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.response.Response;
 import lombok.RequiredArgsConstructor;
@@ -16,10 +17,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderAccommodationController {
     private final OrderAccommodationService orderAccommodationService;
+    private final TransactionService transactionService;
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody OrderAccommodationDTO request) {
-        return Response.renderJSON(orderAccommodationService.create(request), "ORDER ACCOMMODATION CREATED");
+        return Response.renderJSON(transactionService.createOrderAccommodation(request), "CREATE ORDER ACCOMMODATION");
     }
 
     @GetMapping
@@ -34,7 +36,7 @@ public class OrderAccommodationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(
-            @PathVariable long id
+            @PathVariable String id
     ) {
         return Response.renderJSON(orderAccommodationService.getOne(id), "SHOW ONE ORDER ACCOMMODATION");
     }

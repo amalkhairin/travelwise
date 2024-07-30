@@ -12,9 +12,6 @@ import enigma.travelwise.utils.dto.DestionationDTO;
 import enigma.travelwise.utils.dto.WeatherData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -74,7 +71,7 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    public Page<CustomDestinationResponse> getAllWithWeather(Pageable pageable) {
+    public List<CustomDestinationResponse> getAllWithWeather() {
         List<CustomDestinationResponse> customDestinationResponseList = new ArrayList<>();
         Map<LocalDate, WeatherData.ListItem> listWeather = weatherService.getWeather(-8.409518, 115.163727).getList()
                 .stream().filter(items -> items.getDtTxt().contains("12:00:00"))
@@ -84,7 +81,7 @@ public class DestinationServiceImpl implements DestinationService {
                         (existing, replacement) -> existing,
                         LinkedHashMap::new
                 ));
-        Page<Destination> destinationList = destinationRepository.findAll(pageable);
+        List<Destination> destinationList = destinationRepository.findAll();
         for (Destination destination : destinationList) {
             CustomDestinationResponse customDestinationResponse = CustomDestinationResponse
                     .builder()
@@ -100,7 +97,7 @@ public class DestinationServiceImpl implements DestinationService {
                     .build();
             customDestinationResponseList.add(customDestinationResponse);
         }
-        return new PageImpl<>(customDestinationResponseList, pageable, destinationList.getTotalElements());
+        return customDestinationResponseList;
     }
 
     @Override
