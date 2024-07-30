@@ -14,7 +14,7 @@ public interface DestinationService {
     List<Destination> getAll();
     List<CustomDestinationResponse> getAllWithWeather();
     Destination getById(Long id);
-    CustomDestinationResponse getByIdWithWeather(Long id);
+    CustomDestinationResponse getWithWeatherById(Long id);
     Destination update(Long id, DestionationDTO req);
     void delete(Long id);
 }

@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,6 +27,7 @@ public class DestinationServiceImpl implements DestinationService {
     private final CloudinaryService cloudinaryService;
     private final DestinationRepository destinationRepository;
     private final WeatherService weatherService;
+    private final ExecutorService executorService;
 
     @Override
     public Destination create(DestionationDTO req) throws JsonProcessingException {
@@ -104,12 +106,41 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    public CustomDestinationResponse getByIdWithWeather(Long id) {
-        return null;
+    public CustomDestinationResponse getWithWeatherById(Long id) {
+        Destination destination = this.getById(id);
+        Map<LocalDate, WeatherData.ListItem> listWeather = weatherService.getWeather(-8.409518, 115.163727).getList()
+                .stream().filter(items -> items.getDtTxt().contains("12:00:00"))
+                .sorted(Comparator.comparing(items -> LocalDate.parse(items.getDtTxt().split(" ")[0])))
+                .collect(Collectors.toMap(
+                        items -> LocalDate.parse(items.getDtTxt().split(" ")[0]), items -> items,
+                        (existing, replacement) -> existing,
+                        LinkedHashMap::new
+                ));
+        return CustomDestinationResponse.builder()
+                .id(destination.getId())
+                .name(destination.getName())
+                .description(destination.getDescription())
+                .location(destination.getLocations())
+                .category(destination.getCategories())
+                .pictures(destination.getPictures())
+                .category_prices(destination.getCategoryPrices())
+                .weather(listWeather)
+                .coordinates(Map.of("latitude", destination.getLatitude(), "longitude", destination.getLongitude()))
+                .build();
     }
 
     @Override
     public Destination update(Long id, DestionationDTO req) {
+        executorService.submit(() -> {
+            for (int i = 0; i < 10; i++) {
+                System.out.println(i);
+                try {
+                    Thread.sleep(3000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
         return null;
     }
 

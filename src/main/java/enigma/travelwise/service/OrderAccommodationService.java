@@ -13,4 +13,6 @@ public interface OrderAccommodationService {
     List<OrderAccommodation> getAll(Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut);
 
     OrderAccommodation getOne(Long id);
+
+    boolean updatePaymentStatus(Long id, String status);
 }

@@ -31,4 +31,7 @@ public class OrderAccommodation {
 
     @OneToMany(mappedBy = "orderAccommodation")
     private List<OrderAccommodationDetail> accommodationDetails = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
 }

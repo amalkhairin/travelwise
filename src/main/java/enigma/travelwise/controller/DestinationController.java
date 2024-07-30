@@ -25,13 +25,29 @@ public class DestinationController {
         return Response.renderJSON(destinationService.create(request), "DESTINATION CREATED");
     }
 
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        return Response.renderJSON(destinationService.getAll());
+    }
+
+    @GetMapping("/weather")
+    public ResponseEntity<?> getAllWithWeather() {
+        return Response.renderJSON(destinationService.getAllWithWeather());
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getById(@PathVariable Long id) {
+        return Response.renderJSON(destinationService.getById(id));
+    }
+
+    @GetMapping("/{id}/weather")
+    public ResponseEntity<?> getWithWeatherById(@PathVariable Long id) {
+        return Response.renderJSON(destinationService.getWithWeatherById(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
         return Response.renderJSON(destinationService.uploadPhoto(files, id), "DESTINATION UPDATED");
     }
 
-    @GetMapping
-    public ResponseEntity<?> getAll() {
-        return Response.renderJSON(destinationService.getAllWithWeather());
-    }
 }
