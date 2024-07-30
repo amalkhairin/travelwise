@@ -3,6 +3,7 @@ package enigma.travelwise.controller;
 import enigma.travelwise.model.OrderDestination;
 import enigma.travelwise.service.OrderAccommodationService;
 import enigma.travelwise.service.OrderDestinationService;
+import enigma.travelwise.service.TransactionService;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.dto.OrderDestinationDTO;
 import enigma.travelwise.utils.response.Response;
@@ -19,11 +20,12 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 public class OrderDestinationController {
     private final OrderDestinationService orderDestinationsService;
+    private final TransactionService transactionService;
 
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody OrderDestinationDTO request) {
-        return Response.renderJSON(orderDestinationsService.create(request), "ORDER DESTINATION CREATED");
+        return Response.renderJSON(transactionService.createOrderDestionation(request), "ORDER DESTINATION CREATED");
     }
 
     @GetMapping
