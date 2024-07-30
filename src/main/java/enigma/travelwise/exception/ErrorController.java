@@ -1,4 +1,4 @@
-package enigma.travelwise.controller;
+package enigma.travelwise.exception;
 
 import enigma.travelwise.utils.response.Response;
 import org.springframework.http.HttpStatus;

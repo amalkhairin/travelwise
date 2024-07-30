@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface OrderAccommodationDetailService {
     OrderAccommodationDetail create(OrderAccommodationDetailDTO request);
-    List<OrderAccommodationDetail> getAll();
+    List<OrderAccommodationDetail> getAll(Integer price, Integer quantity, String categoryRoom, Long accommodationId);
     OrderAccommodationDetail getOne(Long id);
 
 }

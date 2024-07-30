@@ -27,11 +27,8 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class OrderAccommodationServiceImpl implements OrderAccommodationService {
-    @Autowired
     private final OrderAccommodationRepository orderAccommodationRepository;
-    @Autowired
     private final OrderAccommodationDetailService orderAccommodationDetailService;
-    @Autowired
     private final UserService userService;
     private final AccommodationService accommodationService;
 
@@ -50,15 +47,10 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
         for (OrderAccommodationDetailDTO detail : details) {
             Accommodation acc = accommodationService.getById(detail.getAccommodationId());
             String price_tag = detail.getCategory().toLowerCase();
-            Integer cat_price = acc.getCategory_prices().get(price_tag);
+            Integer cat_price = acc.getCategoryPrices().get(price_tag);
 
             int qty = detail.getQuantity();
             cat_price *= qty;
-
-            log.warn("");
-            log.warn("------");
-            log.warn(cat_price.toString());
-            log.warn("");
 
             detail.setOrderAccommodation(result);
             pricePlaceHolder += cat_price;
@@ -68,9 +60,6 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
         if (request.getCheckIn().isAfter(request.getCheckOut())) {
             throw new IllegalArgumentException("Check-in date must be before the checkout date.");
         }
-
-
-        log.warn(Integer.toString(pricePlaceHolder));
 
         LocalDate checkIn = request.getCheckIn();
         LocalDate checkout = request.getCheckOut();
