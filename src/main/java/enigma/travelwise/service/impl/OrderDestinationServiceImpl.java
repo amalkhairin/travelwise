@@ -53,9 +53,7 @@ public class OrderDestinationServiceImpl implements OrderDestinationService {
 
         result.setTotalPrice(pricePlaceHolder);
         result.setDestinationDetails(odd_list);
-        orderDestinationRepository.save(result);
-
-        return result;
+        return orderDestinationRepository.save(result);
     }
 
     @Override

@@ -48,7 +48,7 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
         for (OrderAccommodationDetailDTO detail : details) {
             Accommodation acc = accommodationService.getById(detail.getAccommodationId());
             String price_tag = detail.getCategory().toLowerCase();
-            Integer cat_price = acc.getCategory_prices().get(price_tag);
+            Integer cat_price = acc.getCategoryPrices().get(price_tag);
 
             int qty = detail.getQuantity();
             total_qty += qty;
