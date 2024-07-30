@@ -6,6 +6,8 @@ import enigma.travelwise.service.DestinationService;
 import enigma.travelwise.utils.dto.DestionationDTO;
 import enigma.travelwise.utils.response.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +28,8 @@ public class DestinationController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll() {
-        return Response.renderJSON(destinationService.getAll());
+    public ResponseEntity<?> getAll(@PageableDefault Pageable pageable) {
+        return Response.renderJSON(destinationService.getAll(pageable));
     }
 
     @GetMapping("/weather")

@@ -6,6 +6,8 @@ import enigma.travelwise.utils.dto.AccommodationDTO;
 import enigma.travelwise.utils.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,10 +33,11 @@ public class AccommodationController {
     }
 
     @GetMapping
-    private ResponseEntity<?> getAll(@RequestParam(required = false) String name,
+    private ResponseEntity<?> getAll(@PageableDefault Pageable pageable,
+                                     @RequestParam(required = false) String name,
                                      @RequestParam(required = false) String category,
                                      @RequestParam(required = false) String location) {
-        return Response.renderJSON(accommodationService.getAll(name, location, category), "SHOW ALL ACCOMMODATIONS");
+        return Response.renderJSON(accommodationService.getAll(pageable, name, location, category), "SHOW ALL ACCOMMODATIONS");
     }
 
     @GetMapping("/{id}")
