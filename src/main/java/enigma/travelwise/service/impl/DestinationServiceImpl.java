@@ -3,11 +3,13 @@ package enigma.travelwise.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import enigma.travelwise.model.Destination;
+import enigma.travelwise.model.UserEntity;
 import enigma.travelwise.repository.DestinationRepository;
 import enigma.travelwise.service.CloudinaryService;
 import enigma.travelwise.service.DestinationService;
 import enigma.travelwise.service.WeatherService;
 import enigma.travelwise.utils.dto.CustomDestinationResponse;
+import enigma.travelwise.utils.dto.CustomPage;
 import enigma.travelwise.utils.dto.DestionationDTO;
 import enigma.travelwise.utils.dto.WeatherData;
 import enigma.travelwise.utils.specification.DestinationSpecification;
@@ -71,13 +73,15 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    public Page<Destination> getAll(Pageable pageable, String name, String location, String category) {
+    public CustomPage<Destination> getAll(Pageable pageable, String name, String location, String category) {
         Specification<Destination> specification = DestinationSpecification.getSpecification(name, location, category);
-        return destinationRepository.findAll(specification, pageable);
+        Page<Destination> destinationPage = destinationRepository.findAll(specification, pageable);
+
+        return new CustomPage<>(destinationPage);
     }
 
     @Override
-    public Page<CustomDestinationResponse> getAllWithWeather(Pageable pageable, String name, String location, String category) {
+    public CustomPage<CustomDestinationResponse> getAllWithWeather(Pageable pageable, String name, String location, String category) {
         Specification<Destination> specification = DestinationSpecification.getSpecification(name, location, category);
         List<CustomDestinationResponse> customDestinationResponseList = new ArrayList<>();
         Page<Destination> destinationList = destinationRepository.findAll(specification, pageable);
@@ -104,7 +108,8 @@ public class DestinationServiceImpl implements DestinationService {
                     .build();
             customDestinationResponseList.add(customDestinationResponse);
         }
-        return new PageImpl<>(customDestinationResponseList, pageable, destinationList.getTotalElements());
+        var customPage = new PageImpl<>(customDestinationResponseList, pageable, destinationList.getTotalElements());
+        return new CustomPage<>(customPage);
     }
 
     @Override

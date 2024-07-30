@@ -6,9 +6,12 @@ import enigma.travelwise.model.OrderDestinationDetail;
 import enigma.travelwise.repository.OrderDestinationDetailRepository;
 import enigma.travelwise.service.DestinationService;
 import enigma.travelwise.service.OrderDestinationDetailService;
+import enigma.travelwise.utils.dto.CustomPage;
 import enigma.travelwise.utils.dto.OrderDestinationDetailDTO;
 import enigma.travelwise.utils.specification.OrderDestinationDetailSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -37,9 +40,10 @@ public class OrderDestinationDetailServiceImpl implements OrderDestinationDetail
     }
 
     @Override
-    public List<OrderDestinationDetail> getAll(Integer price, Integer quantity, String categoryTicket, Long destinationId) {
+    public CustomPage<OrderDestinationDetail> getAll(Pageable pageable, Integer price, Integer quantity, String categoryTicket, Long destinationId) {
         Specification<OrderDestinationDetail> specification = OrderDestinationDetailSpecification.getSpecification(price, quantity, categoryTicket, destinationId);
-        return orderDestinationDetailRepository.findAll(specification);
+        var orderDestinationDetailPage = orderDestinationDetailRepository.findAll(specification, pageable);
+        return new CustomPage<>(orderDestinationDetailPage);
     }
 
 

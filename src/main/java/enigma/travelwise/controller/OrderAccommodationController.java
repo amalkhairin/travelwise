@@ -15,7 +15,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
-@RequestMapping("/order_accommodations")
+@RequestMapping("/api/v1/order_accommodations")
 @RequiredArgsConstructor
 public class OrderAccommodationController {
     private final OrderAccommodationService orderAccommodationService;

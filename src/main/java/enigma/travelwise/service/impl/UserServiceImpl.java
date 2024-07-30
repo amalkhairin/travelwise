@@ -4,10 +4,7 @@ import enigma.travelwise.model.UserEntity;
 import enigma.travelwise.repository.UserRepository;
 import enigma.travelwise.service.CloudinaryService;
 import enigma.travelwise.service.UserService;
-import enigma.travelwise.utils.dto.UserChangeLocationDTO;
-import enigma.travelwise.utils.dto.UserChangeProfilePictureDTO;
-import enigma.travelwise.utils.dto.UserDTO;
-import enigma.travelwise.utils.dto.UserUpdateDTO;
+import enigma.travelwise.utils.dto.*;
 import enigma.travelwise.utils.specification.UserSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,9 +35,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<UserEntity> getAll(Pageable pageable, String name) {
+    public CustomPage<UserEntity> getAll(Pageable pageable, String name) {
         Specification<UserEntity> specification = UserSpecification.getSpecification(name);
-        return userRepository.findAll(specification, pageable);
+        Page<UserEntity> userPage = userRepository.findAll(specification, pageable);
+        return new CustomPage<>(userPage);
     }
 
     @Override
