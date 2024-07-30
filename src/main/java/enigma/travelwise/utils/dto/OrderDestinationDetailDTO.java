@@ -1,6 +1,6 @@
 package enigma.travelwise.utils.dto;
 
-import enigma.travelwise.model.OrderAccommodation;
+import enigma.travelwise.model.OrderDestination;
 import lombok.*;
 
 @AllArgsConstructor
@@ -8,9 +8,9 @@ import lombok.*;
 @Getter
 @Setter
 @Builder
-public class OrderAccommodationDetailDTO {
+public class OrderDestinationDetailDTO {
     private String category;
     private Integer quantity;
-    private Long accommodationId;
-    private OrderAccommodation orderAccommodation;
+    private Long destinationId;
+    private OrderDestination orderDestination;
 }

@@ -15,5 +15,5 @@ public class AppConfig {
     }
 
     @Bean
-    public ExecutorService executorService() {return Executors.newFixedThreadPool(5);}
+    public ExecutorService executorService() {return Executors.newFixedThreadPool(5); }
 }

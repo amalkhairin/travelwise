@@ -44,7 +44,7 @@ public class Accommodation {
     @JdbcTypeCode(SqlTypes.JSON)
     @Convert(converter = JsonConverter.class)
     @Column(columnDefinition = "jsonb")
-    private Map<String, Integer> category_prices;
+    private Map<String, Integer> categoryPrices;
 
 //    @NotNull
     private Double latitude;

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface OrderAccommodationDetailService {
     OrderAccommodationDetail create(OrderAccommodationDetailDTO request);
-    Page<OrderAccommodationDetail> getAll(Pageable pageable);
+    Page<OrderAccommodationDetail> getAll(Pageable pageable, Integer price, Integer quantity, String categoryRoom, Long accommodationId);
     OrderAccommodationDetail getOne(Long id);
 
 }

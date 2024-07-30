@@ -35,7 +35,7 @@ public class AccommodationServiceImpl implements AccommodationService {
         accommodation.setDescription(request.getDescription());
         accommodation.setLocation(request.getLocation());
         accommodation.setCategory(request.getCategory());
-        accommodation.setCategory_prices(request.getCategory_prices());
+        accommodation.setCategoryPrices(request.getCategory_prices());
         accommodation.setLatitude(request.getLatitude());
         accommodation.setLongitude(request.getLongitude());
         return accommodationRepository.save(accommodation);
@@ -74,7 +74,7 @@ public class AccommodationServiceImpl implements AccommodationService {
         updateAccomm.setDescription(request.getDescription());
         updateAccomm.setLocation(request.getLocation());
         updateAccomm.setCategory(request.getCategory());
-        updateAccomm.setCategory_prices(request.getCategory_prices());
+        updateAccomm.setCategoryPrices(request.getCategory_prices());
         updateAccomm.setLatitude(request.getLatitude());
         updateAccomm.setLongitude(request.getLongitude());
         return accommodationRepository.save(updateAccomm);
