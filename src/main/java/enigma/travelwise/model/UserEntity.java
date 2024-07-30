@@ -1,7 +1,9 @@
 package enigma.travelwise.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import enigma.travelwise.utils.validator.NoSpaces;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -22,12 +24,20 @@ public class UserEntity {
     @NotBlank
     private String name;
 
-    @NotBlank
+    @Column(unique = true)
+    @NoSpaces
+    private String username;
+
+    @Column(unique = true)
+    @Email(message = "Email must be valid")
     private String email;
 
     @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // supaya tidak di-return di response API
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @NotBlank
     private String phone_number;
