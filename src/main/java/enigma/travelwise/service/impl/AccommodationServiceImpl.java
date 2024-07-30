@@ -9,6 +9,8 @@ import enigma.travelwise.utils.specification.AccommodationSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,15 +42,17 @@ public class AccommodationServiceImpl implements AccommodationService {
     }
 
     @Override
-    public List<Accommodation> getAll(String name, String location, String category) {
+    public Page<Accommodation> getAll(Pageable pageable, String name, String location, String category) {
         Specification<Accommodation> specification = AccommodationSpecification.getSpecification(name, location, category);
-        return accommodationRepository.findAll(specification);
+        return accommodationRepository.findAll(specification, pageable);
     }
 
     @Override
     public Accommodation getById(Long id) {
         return accommodationRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("ACCOMMODATION WITH ID + " + id + " NOT FOUND"));
+                .orElse(null);
+//                .orElseThrow(() -> new RuntimeException("ACCOMMODATION WITH ID + " + id + " NOT FOUND")
+
     }
 
     @Override

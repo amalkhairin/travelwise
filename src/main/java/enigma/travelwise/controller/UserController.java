@@ -8,6 +8,8 @@ import enigma.travelwise.utils.dto.UserDTO;
 import enigma.travelwise.utils.dto.UserUpdateDTO;
 import enigma.travelwise.utils.response.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,8 +26,9 @@ public class UserController {
     }
 
     @GetMapping
-    private ResponseEntity<?> getAll(@RequestParam (required = false) String name) {
-        return Response.renderJSON(userService.getAll(name), "SHOW ALL USERS");
+    private ResponseEntity<?> getAll(@PageableDefault Pageable pageable,
+                                     @RequestParam (required = false) String name) {
+        return Response.renderJSON(userService.getAll(pageable, name), "SHOW ALL USERS");
     }
 
     @GetMapping("/{id}")

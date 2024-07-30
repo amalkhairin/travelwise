@@ -1,27 +1,31 @@
 package enigma.travelwise.service.impl;
 
-import enigma.travelwise.model.Accommodation;
-import enigma.travelwise.model.OrderAccommodation;
-import enigma.travelwise.model.OrderAccommodationDetail;
-import enigma.travelwise.model.UserEntity;
+import enigma.travelwise.model.*;
 import enigma.travelwise.repository.OrderAccommodationRepository;
 import enigma.travelwise.service.AccommodationService;
 import enigma.travelwise.service.OrderAccommodationDetailService;
 import enigma.travelwise.service.OrderAccommodationService;
 import enigma.travelwise.service.UserService;
+import enigma.travelwise.utils.dto.CreateTransactionResponse;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.dto.OrderAccommodationDetailDTO;
+import enigma.travelwise.utils.dto.Transaction;
 import enigma.travelwise.utils.specification.OrderAccommodationSpecification;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -32,7 +36,9 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
     private final UserService userService;
     private final AccommodationService accommodationService;
 
+
     @Override
+    @Transactional
     public OrderAccommodation create(OrderAccommodationDTO request) {
         UserEntity user = userService.getById(request.getUserId());
         List<OrderAccommodationDetailDTO> details = request.getOrderAccommodationDetails();
@@ -43,6 +49,7 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
 
         OrderAccommodation result = orderAccommodationRepository.save(newOrderAccommodation);
         int pricePlaceHolder = 0;
+        int total_qty = 0;
         List<OrderAccommodationDetail> oad_list = new ArrayList<>();
         for (OrderAccommodationDetailDTO detail : details) {
             Accommodation acc = accommodationService.getById(detail.getAccommodationId());
@@ -50,6 +57,7 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
             Integer cat_price = acc.getCategoryPrices().get(price_tag);
 
             int qty = detail.getQuantity();
+            total_qty += qty;
             cat_price *= qty;
 
             detail.setOrderAccommodation(result);
@@ -70,19 +78,30 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
 
         result.setTotalPrice(pricePlaceHolder);
         result.setAccommodationDetails(oad_list);
+        result.setStatus(PaymentStatus.PROCESSING);
         orderAccommodationRepository.save(result);
+
+
 
         return result;
     }
 
     @Override
-    public List<OrderAccommodation> getAll(Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
+    public Page<OrderAccommodation> getAll(Pageable pageable, Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
         Specification<OrderAccommodation> specification = OrderAccommodationSpecification.getSpecification(userId, totalPrice, checkIn, checkOut);
-        return orderAccommodationRepository.findAll(specification);
+        return orderAccommodationRepository.findAll(specification, pageable);
     }
 
     @Override
     public OrderAccommodation getOne(Long id) {
         return orderAccommodationRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+    }
+
+    @Override
+    public boolean updatePaymentStatus(Long id, String status) {
+        OrderAccommodation orderAccommodation = getOne(id);
+        orderAccommodation.setStatus(PaymentStatus.COMPLETED);
+        orderAccommodationRepository.save(orderAccommodation);
+        return true;
     }
 }

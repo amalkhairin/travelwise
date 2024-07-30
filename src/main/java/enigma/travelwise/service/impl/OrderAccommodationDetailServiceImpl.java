@@ -12,6 +12,8 @@ import enigma.travelwise.utils.specification.OrderAccommodationDetailSpecificati
 import enigma.travelwise.utils.specification.OrderAccommodationSpecification;
 import enigma.travelwise.utils.specification.OrderDestinationSpecification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -40,11 +42,10 @@ public class OrderAccommodationDetailServiceImpl implements OrderAccommodationDe
     }
 
     @Override
-    public List<OrderAccommodationDetail> getAll(Integer price, Integer quantity, String categoryRoom, Long accommodationId) {
+    public Page<OrderAccommodationDetail> getAll(Pageable pageable, Integer price, Integer quantity, String categoryRoom, Long accommodationId) {
         Specification<OrderAccommodationDetail> specification = OrderAccommodationDetailSpecification.getSpecification(price, quantity, categoryRoom, accommodationId);
-        return orderAccommodationDetailRepository.findAll(specification);
+        return orderAccommodationDetailRepository.findAll(specification, pageable);
     }
-
 
     @Override
     public OrderAccommodationDetail getOne(Long id) {
