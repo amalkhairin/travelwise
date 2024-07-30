@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/accommodations")
+@RequestMapping("/api/v1/accommodations")
 @RequiredArgsConstructor
 public class AccommodationController {
     @Autowired

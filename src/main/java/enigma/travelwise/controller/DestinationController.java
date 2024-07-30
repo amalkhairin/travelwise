@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/destinations")
+@RequestMapping("/api/v1/destinations")
 @RequiredArgsConstructor
 public class DestinationController {
     private final DestinationService destinationService;

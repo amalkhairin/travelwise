@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RestController
-@RequestMapping("/order_accommodation_details")
+@RequestMapping("/api/v1/order_accommodation_details")
 @RequiredArgsConstructor
 public class OrderAccommodationDetailController {
     private final OrderAccommodationDetailService orderAccommodationDetailService;
