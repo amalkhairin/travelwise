@@ -94,8 +94,6 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
     @Override
     public void updatePaymentStatus(String id, PaymentStatus status) {
         OrderAccommodation orderAccommodation = getOne(id);
-        log.warn(orderAccommodation.getTotalPrice().toString());
-        log.warn(status.toString());
         orderAccommodation.setStatus(status);
         orderAccommodationRepository.save(orderAccommodation);
     }

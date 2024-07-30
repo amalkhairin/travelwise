@@ -35,7 +35,7 @@ public class OrderDestinationController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getOne(
-            @PathVariable long id
+            @PathVariable String id
     ) {
         return Response.renderJSON(orderDestinationsService.getOne(id), "SHOW ONE ORDER ACCOMMODATION");
     }

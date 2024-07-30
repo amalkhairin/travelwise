@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "order_destination")
@@ -16,8 +17,8 @@ import java.util.List;
 @Builder
 public class OrderDestination {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private Integer totalPrice;
 
@@ -29,4 +30,7 @@ public class OrderDestination {
 
     @OneToMany(mappedBy = "orderDestination")
     private List<OrderDestinationDetail> destinationDetails = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus status;
 }

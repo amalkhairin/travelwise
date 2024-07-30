@@ -1,9 +1,6 @@
 package enigma.travelwise.service.impl;
 
-import enigma.travelwise.model.Destination;
-import enigma.travelwise.model.OrderDestination;
-import enigma.travelwise.model.OrderDestinationDetail;
-import enigma.travelwise.model.UserEntity;
+import enigma.travelwise.model.*;
 import enigma.travelwise.repository.OrderDestinationRepository;
 import enigma.travelwise.service.*;
 import enigma.travelwise.utils.dto.OrderDestinationDTO;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -53,6 +51,7 @@ public class OrderDestinationServiceImpl implements OrderDestinationService {
 
         result.setTotalPrice(pricePlaceHolder);
         result.setDestinationDetails(odd_list);
+        result.setStatus(PaymentStatus.PROCESSING);
         return orderDestinationRepository.save(result);
     }
 
@@ -63,7 +62,14 @@ public class OrderDestinationServiceImpl implements OrderDestinationService {
     }
 
     @Override
-    public OrderDestination getOne(Long id) {
-        return orderDestinationRepository.findById(id).orElseThrow(() -> new RuntimeException("Order Destination not found"));
+    public OrderDestination getOne(String id) {
+        return orderDestinationRepository.findById(UUID.fromString(id)).orElseThrow(() -> new RuntimeException("Order Destination not found"));
+    }
+
+    @Override
+    public void updatePaymentStatus(String id, PaymentStatus status) {
+        OrderDestination orderDestination = getOne(id);
+        orderDestination.setStatus(status);
+        orderDestinationRepository.save(orderDestination);
     }
 }

@@ -18,31 +18,6 @@ public class Transaction {
     @JsonProperty("expiry")
     Expiry expiry;
 
-//    @Getter
-//    @Setter
-//    @Data
-//    @AllArgsConstructor
-//    @NoArgsConstructor
-//    @Builder
-//    public static class ItemDetails {
-//
-//        List<Item> items;
-//
-//        @Getter
-//        @Setter
-//        @Data
-//        @AllArgsConstructor
-//        @NoArgsConstructor
-//        @Builder
-//        public static class Item {
-//            String id;
-//            String name;
-//            Integer quantity;
-//            Integer price;
-//        }
-//
-//    }
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
