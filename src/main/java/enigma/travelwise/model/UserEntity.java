@@ -1,5 +1,6 @@
 package enigma.travelwise.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import enigma.travelwise.utils.validator.NoSpaces;
 import jakarta.persistence.*;
@@ -39,14 +40,14 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @NotBlank
+//    @NotBlank(message = "Phone number must not be blank")
     private String phone_number;
 
     private String profile_picture;
 
-    @NotNull
+//    @NotNull(message = "Latitude must not be null")
     private Double latitude;
 
-    @NotNull
+//    @NotNull(message = "Longitude must not be null")
     private Double longitude;
 }
