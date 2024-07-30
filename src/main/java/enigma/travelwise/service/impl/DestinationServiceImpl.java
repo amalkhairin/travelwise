@@ -10,11 +10,13 @@ import enigma.travelwise.service.WeatherService;
 import enigma.travelwise.utils.dto.CustomDestinationResponse;
 import enigma.travelwise.utils.dto.DestionationDTO;
 import enigma.travelwise.utils.dto.WeatherData;
+import enigma.travelwise.utils.specification.DestinationSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,7 +32,7 @@ public class DestinationServiceImpl implements DestinationService {
     private final CloudinaryService cloudinaryService;
     private final DestinationRepository destinationRepository;
     private final WeatherService weatherService;
-    private final ExecutorService executorService;
+//    private final ExecutorService executorService;
 
     @Override
     public Destination create(DestionationDTO req) throws JsonProcessingException {
@@ -69,12 +71,14 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     @Override
-    public Page<Destination> getAll(Pageable pageable) {
-        return destinationRepository.findAll(pageable);
+    public Page<Destination> getAll(Pageable pageable, String name, String location, String category) {
+        Specification<Destination> specification = DestinationSpecification.getSpecification(name, location, category);
+        return destinationRepository.findAll(specification, pageable);
     }
 
     @Override
-    public Page<CustomDestinationResponse> getAllWithWeather(Pageable pageable) {
+    public Page<CustomDestinationResponse> getAllWithWeather(Pageable pageable, String name, String location, String category) {
+        Specification<Destination> specification = DestinationSpecification.getSpecification(name, location, category);
         List<CustomDestinationResponse> customDestinationResponseList = new ArrayList<>();
         Map<LocalDate, WeatherData.ListItem> listWeather = weatherService.getWeather(-8.409518, 115.163727).getList()
                 .stream().filter(items -> items.getDtTxt().contains("12:00:00"))
@@ -84,7 +88,7 @@ public class DestinationServiceImpl implements DestinationService {
                         (existing, replacement) -> existing,
                         LinkedHashMap::new
                 ));
-        Page<Destination> destinationList = destinationRepository.findAll(pageable);
+        Page<Destination> destinationList = destinationRepository.findAll(specification, pageable);
         for (Destination destination : destinationList) {
             CustomDestinationResponse customDestinationResponse = CustomDestinationResponse
                     .builder()
@@ -101,7 +105,6 @@ public class DestinationServiceImpl implements DestinationService {
             customDestinationResponseList.add(customDestinationResponse);
         }
         return new PageImpl<>(customDestinationResponseList, pageable, destinationList.getTotalElements());
-        return (Page<CustomDestinationResponse>) customDestinationResponseList;
     }
 
     @Override
@@ -135,16 +138,16 @@ public class DestinationServiceImpl implements DestinationService {
 
     @Override
     public Destination update(Long id, DestionationDTO req) {
-        executorService.submit(() -> {
-            for (int i = 0; i < 10; i++) {
-                System.out.println(i);
-                try {
-                    Thread.sleep(3000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+//        executorService.submit(() -> {
+//            for (int i = 0; i < 10; i++) {
+//                System.out.println(i);
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        });
         return null;
     }
 

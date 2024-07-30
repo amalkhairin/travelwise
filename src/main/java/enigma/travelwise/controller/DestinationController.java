@@ -1,15 +1,12 @@
 package enigma.travelwise.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import enigma.travelwise.model.Destination;
 import enigma.travelwise.service.DestinationService;
 import enigma.travelwise.utils.dto.DestionationDTO;
 import enigma.travelwise.utils.response.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,13 +25,19 @@ public class DestinationController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll(@PageableDefault Pageable pageable) {
-        return Response.renderJSON(destinationService.getAll(pageable));
+    public ResponseEntity<?> getAll(@PageableDefault Pageable pageable,
+                                    @RequestParam(required = false) String name,
+                                    @RequestParam(required = false) String category,
+                                    @RequestParam(required = false) String location) {
+        return Response.renderJSON(destinationService.getAll(pageable, name, category, location));
     }
 
     @GetMapping("/weather")
-    public ResponseEntity<?> getAllWithWeather() {
-        return Response.renderJSON(destinationService.getAllWithWeather());
+    public ResponseEntity<?> getAllWithWeather(@PageableDefault Pageable pageable,
+                                               @RequestParam(required = false) String name,
+                                               @RequestParam(required = false) String category,
+                                               @RequestParam(required = false) String location) {
+        return Response.renderJSON(destinationService.getAllWithWeather(pageable, name, category, location));
     }
 
     @GetMapping("/{id}")

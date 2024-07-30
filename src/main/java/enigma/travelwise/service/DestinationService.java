@@ -13,8 +13,8 @@ import java.util.List;
 public interface DestinationService {
     Destination create(DestionationDTO req) throws JsonProcessingException;
     Destination uploadPhoto(List<MultipartFile> files, Long id);
-    Page<Destination> getAll(Pageable pageable);
-    Page<CustomDestinationResponse> getAllWithWeather(Pageable pageable);
+    Page<Destination> getAll(Pageable pageable, String name, String location, String category);
+    Page<CustomDestinationResponse> getAllWithWeather(Pageable pageable, String name, String location, String category);
     Destination getById(Long id);
     CustomDestinationResponse getWithWeatherById(Long id);
     Destination update(Long id, DestionationDTO req);
