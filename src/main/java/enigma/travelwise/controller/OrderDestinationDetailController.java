@@ -4,6 +4,8 @@ import enigma.travelwise.service.OrderAccommodationDetailService;
 import enigma.travelwise.service.OrderDestinationDetailService;
 import enigma.travelwise.utils.response.Response;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +19,13 @@ public class OrderDestinationDetailController {
 
     @GetMapping
     public ResponseEntity<?> getAll(
+            @PageableDefault Pageable pageable,
             @RequestParam(required = false) Integer price,
             @RequestParam(required = false) Integer quantity,
             @RequestParam(required = false) String categoryTicket,
             @RequestParam(required = false) Long destinationId
     ) {
-        return Response.renderJSON(orderDestinationDetailService.getAll(price, quantity, categoryTicket, destinationId), "SHOW ALL ORDER DESTINATION DETAIL");
+        return Response.renderJSON(orderDestinationDetailService.getAll(pageable, price, quantity, categoryTicket, destinationId), "SHOW ALL ORDER DESTINATION DETAIL");
     }
 
     @GetMapping("/{id}")

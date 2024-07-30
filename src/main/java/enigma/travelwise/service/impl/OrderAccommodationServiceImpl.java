@@ -3,6 +3,7 @@ package enigma.travelwise.service.impl;
 import enigma.travelwise.model.*;
 import enigma.travelwise.repository.OrderAccommodationRepository;
 import enigma.travelwise.service.*;
+import enigma.travelwise.utils.dto.CustomPage;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.dto.OrderAccommodationDetailDTO;
 import enigma.travelwise.utils.specification.OrderAccommodationSpecification;
@@ -81,9 +82,10 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
     }
 
     @Override
-    public Page<OrderAccommodation> getAll(Pageable pageable, Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
+    public CustomPage<OrderAccommodation> getAll(Pageable pageable, Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
         Specification<OrderAccommodation> specification = OrderAccommodationSpecification.getSpecification(userId, totalPrice, checkIn, checkOut);
-        return orderAccommodationRepository.findAll(specification, pageable);
+        var orderAccommodationPage = orderAccommodationRepository.findAll(specification, pageable);
+        return new CustomPage<>(orderAccommodationPage);
     }
 
     @Override

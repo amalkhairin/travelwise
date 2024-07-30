@@ -1,10 +1,12 @@
 package enigma.travelwise.service.impl;
 
 import enigma.travelwise.model.Accommodation;
+import enigma.travelwise.model.UserEntity;
 import enigma.travelwise.repository.AccommodationRepository;
 import enigma.travelwise.service.AccommodationService;
 import enigma.travelwise.service.CloudinaryService;
 import enigma.travelwise.utils.dto.AccommodationDTO;
+import enigma.travelwise.utils.dto.CustomPage;
 import enigma.travelwise.utils.specification.AccommodationSpecification;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,9 +44,10 @@ public class AccommodationServiceImpl implements AccommodationService {
     }
 
     @Override
-    public Page<Accommodation> getAll(Pageable pageable, String name, String location, String category) {
+    public CustomPage<Accommodation> getAll(Pageable pageable, String name, String location, String category) {
         Specification<Accommodation> specification = AccommodationSpecification.getSpecification(name, location, category);
-        return accommodationRepository.findAll(specification, pageable);
+        Page<Accommodation> accommodationPage = accommodationRepository.findAll(specification, pageable);
+        return new CustomPage<>(accommodationPage);
     }
 
     @Override
@@ -60,7 +63,7 @@ public class AccommodationServiceImpl implements AccommodationService {
         Accommodation accommodation = this.getById(id);
         Map<String, String> map = new HashMap<>();
         for (int i = 0; i < files.size(); i++) {
-            String url = cloudinaryService.uploadFile(files.get(i),"travelwise_accommodation");
+            String url = cloudinaryService.uploadFile(files.get(i), "travelwise_accommodation");
             map.put("pict_" + i, url);
         }
         accommodation.setPictures(map);
