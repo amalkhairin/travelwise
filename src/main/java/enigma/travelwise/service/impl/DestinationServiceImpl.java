@@ -80,16 +80,16 @@ public class DestinationServiceImpl implements DestinationService {
     public Page<CustomDestinationResponse> getAllWithWeather(Pageable pageable, String name, String location, String category) {
         Specification<Destination> specification = DestinationSpecification.getSpecification(name, location, category);
         List<CustomDestinationResponse> customDestinationResponseList = new ArrayList<>();
-        Map<LocalDate, WeatherData.ListItem> listWeather = weatherService.getWeather(-8.409518, 115.163727).getList()
-                .stream().filter(items -> items.getDtTxt().contains("12:00:00"))
-                .sorted(Comparator.comparing(items -> LocalDate.parse(items.getDtTxt().split(" ")[0])))
-                .collect(Collectors.toMap(
-                        items -> LocalDate.parse(items.getDtTxt().split(" ")[0]), items -> items,
-                        (existing, replacement) -> existing,
-                        LinkedHashMap::new
-                ));
         Page<Destination> destinationList = destinationRepository.findAll(specification, pageable);
         for (Destination destination : destinationList) {
+            Map<LocalDate, WeatherData.ListItem> listWeather = weatherService.getWeather(destination.getLatitude(), destination.getLongitude()).getList()
+                    .stream().filter(items -> items.getDtTxt().contains("12:00:00"))
+                    .sorted(Comparator.comparing(items -> LocalDate.parse(items.getDtTxt().split(" ")[0])))
+                    .collect(Collectors.toMap(
+                            items -> LocalDate.parse(items.getDtTxt().split(" ")[0]), items -> items,
+                            (existing, replacement) -> existing,
+                            LinkedHashMap::new
+                    ));
             CustomDestinationResponse customDestinationResponse = CustomDestinationResponse
                     .builder()
                     .id(destination.getId())
@@ -138,17 +138,15 @@ public class DestinationServiceImpl implements DestinationService {
 
     @Override
     public Destination update(Long id, DestionationDTO req) {
-//        executorService.submit(() -> {
-//            for (int i = 0; i < 10; i++) {
-//                System.out.println(i);
-//                try {
-//                    Thread.sleep(3000);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        });
-        return null;
+        Destination destination = this.getById(id);
+        destination.setName(req.getName());
+        destination.setCategories(req.getCategories());
+        destination.setLocations(req.getLocations());
+        destination.setDescription(req.getDescription());
+        destination.setCategoryPrices(req.getCategory_prices());
+        destination.setLatitude(req.getLatitude());
+        destination.setLongitude(req.getLongitude());
+        return destinationRepository.save(destination);
     }
 
     @Override

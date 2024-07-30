@@ -1,6 +1,7 @@
 package enigma.travelwise.service;
 
 import enigma.travelwise.model.OrderAccommodation;
+import enigma.travelwise.model.PaymentStatus;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,9 @@ public interface OrderAccommodationService {
 
     Page<OrderAccommodation> getAll(Pageable pageable, Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut);
 
-    OrderAccommodation getOne(Long id);
+    OrderAccommodation getOne(String id);
 
-    boolean updatePaymentStatus(Long id, String status);
+    void updatePaymentStatus(String id, PaymentStatus status);
+
+
 }
