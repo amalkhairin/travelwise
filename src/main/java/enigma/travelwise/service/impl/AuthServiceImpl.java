@@ -76,8 +76,8 @@ public class AuthServiceImpl implements AuthService {
                 .role(role)
                 .password(passwordEncoder.encode(req.getPassword()))
                 .phone_number(req.getPhoneNumber())
-                .latitude(3.3)
-                .longitude(3.3)
+                .latitude(-6.3016)
+                .longitude(106.8191)
                 .build();
         userRepository.save(user);
         UserDetails userDetails = User.withUsername(user.getUsername())
