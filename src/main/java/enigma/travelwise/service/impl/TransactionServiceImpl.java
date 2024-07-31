@@ -54,7 +54,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .expiry(
                         Transaction.Expiry.builder()
                                 .unit("minutes")
-                                .duration(1)
+                                .duration(2)
                                 .build()
                 )
                 .build();
@@ -102,7 +102,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .expiry(
                         Transaction.Expiry.builder()
                                 .unit("minutes")
-                                .duration(1)
+                                .duration(2)
                                 .build()
                 )
                 .build();
@@ -134,7 +134,7 @@ public class TransactionServiceImpl implements TransactionService {
     public void paymentStatus(String token, String orderId, Transaction.Expiry expiry, String source) {
         if (expiry != null) {
             int durationInSecond = expiry.getDuration() * 60;
-            int totalDuration = durationInSecond / 3;
+            int totalDuration = durationInSecond / 5;
             int countdown = 0;
             for (int i = 0; i < totalDuration; i++) {
                 countdown++;
@@ -159,7 +159,7 @@ public class TransactionServiceImpl implements TransactionService {
                         }
                         break;
                     }
-                    Thread.sleep(3000);
+                    Thread.sleep(5000);
                     if (countdown >= totalDuration) {
                         if (source.equals("accommodation")) {
                             orderAccommodationService.updatePaymentStatus(orderId, PaymentStatus.EXPIRED);

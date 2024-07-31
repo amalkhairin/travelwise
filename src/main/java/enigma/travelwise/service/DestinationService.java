@@ -18,6 +18,7 @@ public interface DestinationService {
     CustomPage<CustomDestinationResponse> getAllWithWeather(Pageable pageable, String name, String location, String category);
     Destination getById(Long id);
     CustomDestinationResponse getWithWeatherById(Long id);
+
     Destination update(Long id, DestionationDTO req);
     void delete(Long id);
 }

@@ -36,19 +36,19 @@ public class UserController {
         return Response.renderJSON(userService.getById(id), "SHOW ONE USER BY ID");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     private ResponseEntity<?> update(@RequestBody UserUpdateDTO request,
                                      @PathVariable Long id) {
         return Response.renderJSON(userService.update(request, id), "USER UPDATED");
     }
 
-    @PutMapping("/change-profile-picture/{id}")
+    @PutMapping("/{id}/change-profile-picture")
     private ResponseEntity<?> changeProfile(UserChangeProfilePictureDTO request,
                                             @PathVariable Long id) {
         return Response.renderJSON(userService.changeProfilePicture(request, id), "PROFILE PICTURE CHANGED");
     }
 
-    @PutMapping("/change-location/{id}")
+    @PutMapping("/{id}/change-location")
     private ResponseEntity<?> changeLocation(@RequestBody UserChangeLocationDTO request,
                                              @PathVariable Long id) {
         return Response.renderJSON(userService.changeLocation(request, id), "USER LOCATION CHANGED");
