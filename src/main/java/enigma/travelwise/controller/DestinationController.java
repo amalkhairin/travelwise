@@ -51,7 +51,7 @@ public class DestinationController {
     }
 
     @PutMapping("/{id}/photos")
-    public ResponseEntity<?> updatePhoto(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
+    public ResponseEntity<?> updatePhoto(@RequestPart("images") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
         return Response.renderJSON(destinationService.uploadPhoto(files, id), "DESTINATION UPDATED");
     }
 
