@@ -2,6 +2,7 @@ package enigma.travelwise.controller;
 
 import enigma.travelwise.service.AuthService;
 import enigma.travelwise.utils.dto.AuthDTO;
+import enigma.travelwise.utils.dto.RefreshTokenDTO;
 import enigma.travelwise.utils.dto.RegisterDTO;
 import enigma.travelwise.utils.response.Response;
 import jakarta.validation.Valid;
@@ -36,9 +37,9 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<?> refreshToken(@RequestHeader("Authorization") String refreshToken) {
+    public ResponseEntity<?> refreshToken(@Valid @RequestBody RefreshTokenDTO req) {
         return Response.renderJSON(
-                authService.refreshToken(refreshToken)
+                authService.refreshToken(req.getRefreshToken())
         );
     }
 }
