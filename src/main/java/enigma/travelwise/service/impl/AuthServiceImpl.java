@@ -64,7 +64,7 @@ public class AuthServiceImpl implements AuthService {
             throw new IllegalArgumentException("Password does not meet the requirements : " + String.join(", ", passwordErrors));
         }
 
-        Role role = Role.ROLE_USER;
+        Role role = Role.USER;
         if (req.getRole() != null) {
             role = Role.valueOf(req.getRole().name().toUpperCase());
         }
