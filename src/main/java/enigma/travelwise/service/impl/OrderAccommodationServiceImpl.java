@@ -81,7 +81,7 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
 
         result.setTotalPrice(pricePlaceHolder);
         result.setAccommodationDetails(oad_list);
-        result.setStatus(PaymentStatus.UNPAID);
+        result.setStatus(PaymentStatus.PROCESSING);
         orderAccommodationRepository.save(result);
 
 
@@ -103,7 +103,7 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
     @Override
     public boolean updatePaymentStatus(Long id, String status) {
         OrderAccommodation orderAccommodation = getOne(id);
-        orderAccommodation.setStatus(PaymentStatus.PAID);
+        orderAccommodation.setStatus(PaymentStatus.COMPLETED);
         orderAccommodationRepository.save(orderAccommodation);
         return true;
     }

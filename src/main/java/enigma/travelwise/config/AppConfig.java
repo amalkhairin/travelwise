@@ -14,7 +14,7 @@ public class AppConfig {
         return RestClient.create();
     }
 
-    @Bean
-    public ExecutorService executorService() {return Executors.newFixedThreadPool(5); }
-    };
+//    @Bean
+//    public ExecutorService executorService() {return Executors.newFixedThreadPool(5); }
+//    };
 }
