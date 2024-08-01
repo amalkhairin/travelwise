@@ -9,29 +9,27 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "order_accommodation")
+@Table(name = "order_destination")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-public class OrderAccommodation {
+public class OrderDestination {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     private Integer totalPrice;
 
-    private LocalDate checkIn;
-
-    private LocalDate checkOut;
+    private LocalDate orderDate;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "orderAccommodation")
-    private List<OrderAccommodationDetail> accommodationDetails = new ArrayList<>();
+    @OneToMany(mappedBy = "orderDestination")
+    private List<OrderDestinationDetail> destinationDetails = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private PaymentStatus status;

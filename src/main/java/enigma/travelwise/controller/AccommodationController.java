@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/accommodations")
+@RequestMapping("/api/v1/accommodations")
 @RequiredArgsConstructor
 public class AccommodationController {
     @Autowired
@@ -26,8 +26,8 @@ public class AccommodationController {
         return Response.renderJSON(accommodationService.create(request), "ACCOMMODATION CREATED");
     }
 
-    @PutMapping("/update-photo/{id}")
-    private ResponseEntity<?> updatePhoto(@RequestPart("file") List<MultipartFile> files,
+    @PutMapping("/{id}/photos")
+    private ResponseEntity<?> updatePhoto(@RequestPart("images") List<MultipartFile> files,
                                           @PathVariable Long id) throws JsonProcessingException {
         return Response.renderJSON(accommodationService.updatePhoto(files, id), "PHOTOS UPLOADED");
     }
@@ -45,7 +45,7 @@ public class AccommodationController {
         return Response.renderJSON(accommodationService.getById(id), "SHOW ACCOMMODATION BY ID");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     private ResponseEntity<?> update(@RequestBody AccommodationDTO request,
                                      @PathVariable Long id) {
         return Response.renderJSON(accommodationService.update(request, id), "ACCOMMODATION UPDATED");

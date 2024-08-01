@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/destinations")
+@RequestMapping("/api/v1/destinations")
 @RequiredArgsConstructor
 public class DestinationController {
     private final DestinationService destinationService;
@@ -50,9 +50,20 @@ public class DestinationController {
         return Response.renderJSON(destinationService.getWithWeatherById(id));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestPart("file") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
+    @PutMapping("/{id}/photos")
+    public ResponseEntity<?> updatePhoto(@RequestPart("images") List<MultipartFile> files, @PathVariable Long id) throws JsonProcessingException {
         return Response.renderJSON(destinationService.uploadPhoto(files, id), "DESTINATION UPDATED");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@RequestBody DestionationDTO request, @PathVariable Long id) throws JsonProcessingException {
+        return Response.renderJSON(destinationService.update(id, request), "DESTINATION UPDATED");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        destinationService.delete(id);
+        return Response.renderJSON(null, "DESTINATION DELETED");
     }
 
 }

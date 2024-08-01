@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
@@ -27,7 +27,7 @@ public class UserController {
 
     @GetMapping
     private ResponseEntity<?> getAll(@PageableDefault Pageable pageable,
-                                     @RequestParam (required = false) String name) {
+                                     @RequestParam(required = false) String name) {
         return Response.renderJSON(userService.getAll(pageable, name), "SHOW ALL USERS");
     }
 
@@ -36,19 +36,19 @@ public class UserController {
         return Response.renderJSON(userService.getById(id), "SHOW ONE USER BY ID");
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     private ResponseEntity<?> update(@RequestBody UserUpdateDTO request,
-                                         @PathVariable Long id) {
+                                     @PathVariable Long id) {
         return Response.renderJSON(userService.update(request, id), "USER UPDATED");
     }
 
-    @PutMapping("/change-profile-picture/{id}")
+    @PutMapping("/{id}/change-profile-picture")
     private ResponseEntity<?> changeProfile(UserChangeProfilePictureDTO request,
                                             @PathVariable Long id) {
         return Response.renderJSON(userService.changeProfilePicture(request, id), "PROFILE PICTURE CHANGED");
     }
 
-    @PutMapping("/change-location/{id}")
+    @PutMapping("/{id}/change-location")
     private ResponseEntity<?> changeLocation(@RequestBody UserChangeLocationDTO request,
                                              @PathVariable Long id) {
         return Response.renderJSON(userService.changeLocation(request, id), "USER LOCATION CHANGED");

@@ -2,14 +2,10 @@ package enigma.travelwise.service.impl;
 
 import enigma.travelwise.model.*;
 import enigma.travelwise.repository.OrderAccommodationRepository;
-import enigma.travelwise.service.AccommodationService;
-import enigma.travelwise.service.OrderAccommodationDetailService;
-import enigma.travelwise.service.OrderAccommodationService;
-import enigma.travelwise.service.UserService;
-import enigma.travelwise.utils.dto.CreateTransactionResponse;
+import enigma.travelwise.service.*;
+import enigma.travelwise.utils.dto.CustomPage;
 import enigma.travelwise.utils.dto.OrderAccommodationDTO;
 import enigma.travelwise.utils.dto.OrderAccommodationDetailDTO;
-import enigma.travelwise.utils.dto.Transaction;
 import enigma.travelwise.utils.specification.OrderAccommodationSpecification;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -19,12 +15,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClient;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -35,7 +31,6 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
     private final OrderAccommodationDetailService orderAccommodationDetailService;
     private final UserService userService;
     private final AccommodationService accommodationService;
-
 
     @Override
     @Transactional
@@ -54,7 +49,7 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
         for (OrderAccommodationDetailDTO detail : details) {
             Accommodation acc = accommodationService.getById(detail.getAccommodationId());
             String price_tag = detail.getCategory().toLowerCase();
-            Integer cat_price = acc.getCategory_prices().get(price_tag);
+            Integer cat_price = acc.getCategoryPrices().get(price_tag);
 
             int qty = detail.getQuantity();
             total_qty += qty;
@@ -82,29 +77,26 @@ public class OrderAccommodationServiceImpl implements OrderAccommodationService 
         result.setTotalPrice(pricePlaceHolder);
         result.setAccommodationDetails(oad_list);
         result.setStatus(PaymentStatus.PROCESSING);
-        orderAccommodationRepository.save(result);
+        return orderAccommodationRepository.save(result);
 
-
-
-        return result;
     }
 
     @Override
-    public Page<OrderAccommodation> getAll(Pageable pageable, Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
+    public CustomPage<OrderAccommodation> getAll(Pageable pageable, Long userId, Integer totalPrice, LocalDate checkIn, LocalDate checkOut) {
         Specification<OrderAccommodation> specification = OrderAccommodationSpecification.getSpecification(userId, totalPrice, checkIn, checkOut);
-        return orderAccommodationRepository.findAll(specification, pageable);
+        var orderAccommodationPage = orderAccommodationRepository.findAll(specification, pageable);
+        return new CustomPage<>(orderAccommodationPage);
     }
 
     @Override
-    public OrderAccommodation getOne(Long id) {
-        return orderAccommodationRepository.findById(id).orElseThrow(() -> new RuntimeException("Order not found"));
+    public OrderAccommodation getOne(String id) {
+        return orderAccommodationRepository.findById(UUID.fromString(id)).orElseThrow(() -> new RuntimeException("Order not found"));
     }
 
     @Override
-    public boolean updatePaymentStatus(Long id, String status) {
+    public void updatePaymentStatus(String id, PaymentStatus status) {
         OrderAccommodation orderAccommodation = getOne(id);
-        orderAccommodation.setStatus(PaymentStatus.COMPLETED);
+        orderAccommodation.setStatus(status);
         orderAccommodationRepository.save(orderAccommodation);
-        return true;
     }
 }
