@@ -1,6 +1,5 @@
 package enigma.travelwise.config;
 
-import enigma.travelwise.model.Role;
 import enigma.travelwise.security.JwtAuthenticationFilter;
 import enigma.travelwise.security.UserSecurity;
 import lombok.RequiredArgsConstructor;
@@ -8,9 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authorization.AuthorityAuthorizationManager;
-import org.springframework.security.authorization.AuthorizationDecision;
-import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -48,51 +44,45 @@ public class SecurityConfig {
                 .disable()
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/api/v1/auth/**").permitAll()
-                        // Accommodation EndPoint
-                        .requestMatchers(HttpMethod.POST, "/api/v1/accommodations").hasAuthority(String.valueOf(Role.ROLE_MITRA))
-                        .requestMatchers(HttpMethod.POST, "/api/v1/accommodations").hasAuthority(String.valueOf(Role.ROLE_ADMIN))
-                        .requestMatchers(HttpMethod.GET, "/api/v1/accommodations").permitAll()
-//                        .requestMatchers(HttpMethod.PUT, "/api/v1/accommodations/{id}").access(userAuthorizationManager())
-
+                                .requestMatchers("/api/v1/auth/**").permitAll()
 
 //                        users
-                        .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/users/{id}").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/{id}").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/{id}/change-profile-picture").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/users/{id}/change-location").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/users/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/users/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/users/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/users/{id}/change-profile-picture").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/users/{id}/change-location").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/users/{id}").access(userAuthorizationManager())
 
 //                        destination
-                        .requestMatchers(HttpMethod.POST, "/api/v1/destinations").hasAuthority("ROLE_MITRA")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/destinations").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/destinations").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/destinations/weather").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/destinations/{id}").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.GET, "/api/v1/destinations/{id}/weather").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/destinations/{id}/photos").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/destinations/{id}").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/destinations/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.POST, "/api/v1/destinations").hasAuthority("ROLE_MITRA")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/destinations").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/destinations").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/destinations/weather").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/destinations/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.GET, "/api/v1/destinations/{id}/weather").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/destinations/{id}/photos").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/destinations/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/destinations/{id}").access(userAuthorizationManager())
 
 //                        accommodation
-                        .requestMatchers(HttpMethod.POST, "/api/v1/accommodations").hasAuthority("ROLE_MITRA")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/accommodations").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/accommodations").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/api/v1/accommodations/{id}").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/accommodations/{id}/photos").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.PUT, "/api/v1/accommodations/{id}").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.DELETE, "/api/v1/accommodations/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.POST, "/api/v1/accommodations").hasAuthority("ROLE_MITRA")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/accommodations").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/accommodations").authenticated()
+                                .requestMatchers(HttpMethod.GET, "/api/v1/accommodations/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/accommodations/{id}/photos").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/accommodations/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.DELETE, "/api/v1/accommodations/{id}").access(userAuthorizationManager())
 
 //                        order/transaction
-                        .requestMatchers(HttpMethod.POST, "/api/v1/order_accommodations").hasAuthority("ROLE_USER")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/order_destinations").hasAuthority("ROLE_USER")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/order_accommodations").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/api/v1/oder_destinations").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/order_destinations").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/order_accommodations").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/v1/order_accommodations/{id}").access(userAuthorizationManager())
-                        .requestMatchers(HttpMethod.GET, "/api/v1/order_destinations/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.POST, "/api/v1/order_accommodations").hasAuthority("ROLE_USER")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/order_destinations").hasAuthority("ROLE_USER")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/order_accommodations").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.POST, "/api/v1/oder_destinations").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/order_destinations").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/order_accommodations").hasAuthority("ROLE_ADMIN")
+                                .requestMatchers(HttpMethod.GET, "/api/v1/order_accommodations/{id}").access(userAuthorizationManager())
+                                .requestMatchers(HttpMethod.GET, "/api/v1/order_destinations/{id}").access(userAuthorizationManager())
 
                 )
                 .sessionManagement(session -> session
