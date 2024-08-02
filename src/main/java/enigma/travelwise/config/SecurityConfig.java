@@ -1,5 +1,6 @@
 package enigma.travelwise.config;
 
+import enigma.travelwise.model.Role;
 import enigma.travelwise.security.JwtAuthenticationFilter;
 import enigma.travelwise.security.UserSecurity;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +8,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authorization.AuthorityAuthorizationManager;
+import org.springframework.security.authorization.AuthorizationDecision;
+import org.springframework.security.authorization.AuthorizationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.authorization.AuthorizationDecision;
@@ -45,6 +49,12 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(authz -> authz
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        // Accommodation EndPoint
+                        .requestMatchers(HttpMethod.POST, "/api/v1/accommodations").hasAuthority(String.valueOf(Role.ROLE_MITRA))
+                        .requestMatchers(HttpMethod.POST, "/api/v1/accommodations").hasAuthority(String.valueOf(Role.ROLE_ADMIN))
+                        .requestMatchers(HttpMethod.GET, "/api/v1/accommodations").permitAll()
+//                        .requestMatchers(HttpMethod.PUT, "/api/v1/accommodations/{id}").access(userAuthorizationManager())
+
 
 //                        users
                         .requestMatchers(HttpMethod.GET, "/api/v1/users").hasAuthority("ROLE_ADMIN")
